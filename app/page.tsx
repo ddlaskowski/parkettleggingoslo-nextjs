@@ -1,5 +1,7 @@
 import Header from "@/components/Header";
 import Services from "@/components/Services";
+import PriceCalculator from "@/components/PriceCalculator";
+import HomeClient from "@/components/HomeClient";
 
 export default function Home() {
   return (
@@ -68,27 +70,13 @@ export default function Home() {
         <Services />
       </section>
 
-      {/* Placeholder: Kalkulator */}
-      <section id="pris" className="max-w-6xl mx-auto px-6 py-20">
-        <h2 className="text-3xl font-semibold">Pris</h2>
-        <p className="mt-3 text-gray-600">
-          Her kommer priskalkulatoren.
-        </p>
-      </section>
+    <HomeClient />
 
       {/* Placeholder: Referanser */}
       <section id="referanser" className="max-w-6xl mx-auto px-6 py-20">
         <h2 className="text-3xl font-semibold">Referanser</h2>
         <p className="mt-3 text-gray-600">
           Galleri med bilder “før/etter”.
-        </p>
-      </section>
-
-      {/* CONTACT */}
-      <section id="kontakt" className="max-w-6xl mx-auto px-6 py-20">
-        <h2 className="text-3xl font-semibold">Kontakt</h2>
-        <p className="mt-3 text-gray-600">
-          Skriv kort hva du trenger, så tar vi kontakt.
         </p>
       </section>
 
