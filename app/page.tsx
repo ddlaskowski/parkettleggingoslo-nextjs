@@ -1,65 +1,102 @@
-import Image from "next/image";
+import Header from "@/components/Header";
+import Services from "@/components/Services";
 
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <main className="min-h-screen bg-white text-[#1E1E1E]">
+      <Header />
+
+      {/* HERO */}
+      <section id="hjem" className="max-w-6xl mx-auto px-6 pt-28 pb-20">
+        <div className="grid md:grid-cols-2 gap-12 items-center">
+          <div>
+            <h1 className="text-5xl font-semibold leading-tight">
+              Parkettlegging i Oslo og omegn
+            </h1>
+
+            <p className="mt-6 text-lg text-gray-600 max-w-xl">
+              Profesjonell legging av parkett, heltre og laminat. Solid arbeid
+              til avtalt tid og pris.
+            </p>
+
+            <div className="mt-10 flex flex-wrap gap-4">
+              <a
+                href="#kontakt"
+                className="bg-[#C69C6D] hover:bg-[#B68655] text-white px-6 py-3 rounded-lg transition"
+              >
+                Gratis befaring
+              </a>
+
+              <a
+                href="tel:+47XXXXXXXX"
+                className="border border-gray-300 px-6 py-3 rounded-lg hover:border-gray-500 transition"
+              >
+                Ring nå
+              </a>
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-3 text-sm text-gray-600">
+              <span className="px-3 py-1 rounded-full border border-gray-200">
+                Oslo
+              </span>
+              <span className="px-3 py-1 rounded-full border border-gray-200">
+                Bærum
+              </span>
+              <span className="px-3 py-1 rounded-full border border-gray-200">
+                Asker
+              </span>
+            </div>
+          </div>
+
+          {/* Placeholder na zdjęcie */}
+          <div className="rounded-2xl bg-[#F5F3EF] aspect-[4/3] border border-gray-200" />
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+      </section>
+
+      {/* TRUST STRIP */}
+      <section className="bg-[#F5F3EF] border-y border-gray-200">
+        <div className="max-w-6xl mx-auto px-6 py-6 flex flex-wrap gap-x-8 gap-y-2 text-sm text-gray-700">
+          <span>Gratis befaring</span>
+          <span>Ryddig tilbud</span>
+          <span>Punktlig og pålitelig</span>
+          <span>Norsk / polsk / engelsk</span>
         </div>
-      </main>
-    </div>
+      </section>
+
+      {/* SERVICES */}
+      <section id="tjenester" className="max-w-6xl mx-auto px-6 py-20">
+        <Services />
+      </section>
+
+      {/* Placeholder: Kalkulator */}
+      <section id="pris" className="max-w-6xl mx-auto px-6 py-20">
+        <h2 className="text-3xl font-semibold">Pris</h2>
+        <p className="mt-3 text-gray-600">
+          Her kommer priskalkulatoren.
+        </p>
+      </section>
+
+      {/* Placeholder: Referanser */}
+      <section id="referanser" className="max-w-6xl mx-auto px-6 py-20">
+        <h2 className="text-3xl font-semibold">Referanser</h2>
+        <p className="mt-3 text-gray-600">
+          Galleri med bilder “før/etter”.
+        </p>
+      </section>
+
+      {/* CONTACT */}
+      <section id="kontakt" className="max-w-6xl mx-auto px-6 py-20">
+        <h2 className="text-3xl font-semibold">Kontakt</h2>
+        <p className="mt-3 text-gray-600">
+          Skriv kort hva du trenger, så tar vi kontakt.
+        </p>
+      </section>
+
+      <footer className="border-t border-gray-200 py-10">
+        <div className="max-w-6xl mx-auto px-6 text-sm text-gray-500">
+          Parkettlegging Oslo · Levert av Laskowski Bygg ENK
+        </div>
+      </footer>
+    </main>
   );
 }
