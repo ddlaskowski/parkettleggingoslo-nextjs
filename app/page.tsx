@@ -1,7 +1,10 @@
 import Header from "@/components/Header";
 import Services from "@/components/Services";
-import PriceCalculator from "@/components/PriceCalculator";
 import HomeClient from "@/components/HomeClient";
+import WhyUs from "@/components/WhyUs";
+import Process from "@/components/Process";
+import Gallery from "@/components/Gallery";
+import FAQ from "@/components/FAQ";
 
 export default function Home() {
   return (
@@ -69,16 +72,16 @@ export default function Home() {
       <section id="tjenester" className="max-w-6xl mx-auto px-6 py-20">
         <Services />
       </section>
-
-    <HomeClient />
-
-      {/* Placeholder: Referanser */}
-      <section id="referanser" className="max-w-6xl mx-auto px-6 py-20">
-        <h2 className="text-3xl font-semibold">Referanser</h2>
-        <p className="mt-3 text-gray-600">
-          Galleri med bilder “før/etter”.
-        </p>
-      </section>
+      {/* WHY US */}
+      <WhyUs />
+      {/* PROCESS */}
+      <Process />
+      {/* HOME CLIENT - PRICE CALCULATOR & CONTACT FORM */}
+      <HomeClient />
+      {/* GALLERY */}
+      <Gallery />
+      {/* FAQ */}
+      <FAQ />
 
       <footer className="border-t border-gray-200 py-10">
         <div className="max-w-6xl mx-auto px-6 text-sm text-gray-500">
