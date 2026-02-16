@@ -5,6 +5,7 @@ import WhyUs from "@/components/WhyUs";
 import Process from "@/components/Process";
 import Gallery from "@/components/Gallery";
 import FAQ from "@/components/FAQ";
+import { siteConfig } from "@/lib/siteConfig";
 
 export default function Home() {
   return (
@@ -33,7 +34,7 @@ export default function Home() {
               </a>
 
               <a
-                href="tel:+47XXXXXXXX"
+                href={`tel:${siteConfig.phoneE164}`}
                 className="border border-gray-300 px-6 py-3 rounded-lg hover:border-gray-500 transition"
               >
                 Ring nå
@@ -80,6 +81,15 @@ export default function Home() {
       <HomeClient />
       {/* GALLERY */}
       <Gallery />
+      
+      <section className="max-w-4xl mx-auto px-6 py-16 text-gray-700">
+        <h2 className="text-2xl font-semibold">Parkettlegging i Oslo og omegn</h2>
+        <p className="mt-4">
+          Vi utfører parkettlegging i Oslo, Bærum, Asker og nærliggende områder.
+          Enten du skal legge nytt parkettgulv i leilighet, hus eller rekkehus,
+          leverer vi presis og effektiv utførelse til avtalt tid.
+        </p>
+      </section>
       {/* FAQ */}
       <FAQ />
 

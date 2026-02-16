@@ -1,4 +1,4 @@
-**Live demo:** https://parkettleggingoslo-vercel.vercel.app/
+**Live demo:** https://parkettleggingoslo.no/
 
 # Parkettlegging Oslo — Next.js Pricing Calculator Landing Page
 
