@@ -92,12 +92,6 @@ export default function Home() {
       </section>
       {/* FAQ */}
       <FAQ />
-
-      <footer className="border-t border-gray-200 py-10">
-        <div className="max-w-6xl mx-auto px-6 text-sm text-gray-500">
-          Parkettlegging Oslo · Levert av Laskowski Bygg ENK
-        </div>
-      </footer>
     </main>
   );
 }
