@@ -21,7 +21,7 @@ export default function WhyUs() {
   return (
     <section className="max-w-6xl mx-auto px-6 py-20">
       <h2 className="text-3xl font-semibold">Hvorfor velge oss</h2>
-      <p className="mt-3 text-gray-600 max-w-2xl">
+      <p className="mt-3 text-gray-600 max-w-4xl">
         Vi jobber kun med gulv – parkett, heltre, laminat og vinyl. Du får ryddig
         tilbud, god fremdrift og et pent resultat uten stress.
       </p>

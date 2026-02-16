@@ -2,6 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { estimatePrice, pricingConfig } from "@/lib/pricingConfig";
+import { siteConfig } from "@/lib/siteConfig";
 
 type PriceCalculatorProps = {
   onSendInquiry?: (payload: {
@@ -203,7 +204,7 @@ export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps)
         Send forespørsel
         </button>
           <a
-            href="tel:+47XXXXXXXX"
+            href={`tel:${siteConfig.phoneE164}`}
             className="border border-gray-300 hover:border-gray-500 px-5 py-3 rounded-xl transition text-sm"
           >
             Ring nå

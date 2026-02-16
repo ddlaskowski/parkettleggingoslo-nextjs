@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { siteConfig } from "@/lib/siteConfig";
 
 type Prefill = {
   message: string;
@@ -17,7 +18,7 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
   }, [prefill?.message]);
 
   const mailtoHref = (() => {
-    const to = "kontakt@dittdomene.no"; // <- zmień później
+    const to = siteConfig.email; // <- zmień później
     const subject = encodeURIComponent("Forespørsel – parkettlegging");
     const body = encodeURIComponent(
       `Navn: ${name}\nTelefon: ${phone}\nSted: ${place}\n\n${message}`
@@ -74,14 +75,14 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
 
       <div className="text-sm text-gray-700">
         <div className="font-semibold">Telefon</div>
-        <div className="mt-1 text-gray-600">+47 XXX XX XXX</div>
+        <div className="mt-1 text-gray-600">{siteConfig.phoneDisplay}</div>
 
         <div className="mt-6 font-semibold">Område</div>
-        <div className="mt-1 text-gray-600">Oslo og omegn</div>
+        <div className="mt-1 text-gray-600">{siteConfig.area}</div>
 
         <div className="mt-6 font-semibold">Firma</div>
         <div className="mt-1 text-gray-600">
-          En spesialisert tjeneste levert av Laskowski Bygg ENK.
+          En spesialisert tjeneste levert av Laskowski Bygg.
         </div>
       </div>
     </div>

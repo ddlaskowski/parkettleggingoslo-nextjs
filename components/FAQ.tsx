@@ -1,23 +1,80 @@
-const faqs = [
-  { q: "Hva påvirker prisen mest?", a: "Areal (m²), type gulv, underlag og antall kutt/overganger." },
-  { q: "Må dere komme på befaring?", a: "Ja – for limt parkett/heltre anbefales befaring alltid. For klikk kan vi ofte gi estimat først." },
-  { q: "Tar dere små oppdrag?", a: "Ja, men vi har minimumsjobb for små arealer (rigg/oppmøte)." },
-  { q: "Hvor lang tid tar jobben?", a: "Vanligvis 1–3 dager avhengig av størrelse og kompleksitet." },
-  { q: "Hvilke områder dekker dere?", a: "Oslo, Bærum, Asker og omegn." },
-];
+"use client";
+
+import { FAQ_ITEMS } from "@/lib/faqItems";
+import { useId, useState } from "react";
+
+
+function Chevron({ open }: { open: boolean }) {
+  return (
+    <span
+      className={`inline-block transition-transform duration-200 ${
+        open ? "rotate-180" : "rotate-0"
+      }`}
+      aria-hidden="true"
+    >
+      ▼
+    </span>
+  );
+}
 
 export default function FAQ() {
-  return (
-    <section className="max-w-6xl mx-auto px-6 py-20">
-      <h2 className="text-3xl font-semibold">Ofte stilte spørsmål</h2>
+  const baseId = useId();
+  const [openIndex, setOpenIndex] = useState<number | null>(0); // 0 = pierwsze otwarte, możesz dać null
 
-      <div className="mt-10 grid md:grid-cols-2 gap-6">
-        {faqs.map((f) => (
-          <div key={f.q} className="bg-white border border-gray-200 rounded-2xl p-6">
-            <div className="font-medium">{f.q}</div>
-            <p className="mt-2 text-gray-600">{f.a}</p>
-          </div>
-        ))}
+  return (
+    <section id="faq" className="max-w-6xl mx-auto px-6 py-20">
+      <h2 className="text-3xl font-semibold">Ofte stilte spørsmål</h2>
+      <p className="mt-3 text-gray-600 max-w-3xl">
+        Her er svar på noen vanlige spørsmål om parkettlegging i Oslo, Bærum og Asker.
+      </p>
+
+      <div className="mt-10 divide-y divide-gray-200 border border-gray-200 rounded-2xl overflow-hidden bg-white">
+        {FAQ_ITEMS.map((item, idx) => {
+          const isOpen = openIndex === idx;
+          const buttonId = `${baseId}-btn-${idx}`;
+          const panelId = `${baseId}-panel-${idx}`;
+
+          return (
+            <div key={item.q} className="px-6">
+              <button
+                id={buttonId}
+                aria-controls={panelId}
+                aria-expanded={isOpen}
+                onClick={() => setOpenIndex(isOpen ? null : idx)}
+                className="w-full py-5 flex items-center justify-between gap-6 text-left"
+              >
+                <span className="font-medium text-gray-900">{item.q}</span>
+                <span className="text-gray-500">
+                  <Chevron open={isOpen} />
+                </span>
+              </button>
+
+              <div
+                id={panelId}
+                role="region"
+                aria-labelledby={buttonId}
+                className={`grid transition-[grid-template-rows] duration-250 ease-out ${
+                  isOpen ? "grid-rows-[1fr]" : "grid-rows-[0fr]"
+                }`}
+              >
+                <div className="overflow-hidden">
+                  <p className="pb-5 text-sm text-gray-600 leading-relaxed">
+                    {item.a}
+                  </p>
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-10">
+        <a
+          href="#kontakt"
+          className="inline-block border border-gray-300 hover:border-gray-500 px-6 py-3 rounded-xl transition text-sm"
+        >
+          Send forespørsel →
+        </a>
       </div>
     </section>
   );
