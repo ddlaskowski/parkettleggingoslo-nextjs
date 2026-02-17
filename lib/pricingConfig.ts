@@ -153,11 +153,22 @@ export type EstimateResult = {
   tierId: string;
   tierLabelNO: string;
   floorTypeLabelNO: string;
-  effectivePricePerM2: number;
-  fixedAddOns: number;
-  subtotal: number;
+
+  // NET / GROSS
+  effectivePricePerM2Net: number;
+  effectivePricePerM2Gross: number;
+
+  fixedAddOnsNet: number;
+  fixedAddOnsGross: number;
+
+  subtotalNet: number;
+  subtotalGross: number;
+
   minimumApplied: boolean;
-  total: number;
+
+  totalNet: number;
+  totalGross: number;
+
   currency: string;
 };
 
@@ -165,7 +176,7 @@ export function estimatePrice({
   areaM2,
   floorTypeId,
   selectedAddOnIds = [],
-  includeVat = false,
+  includeVat = false, // zostawiamy, ale UI i tak będzie wybierał co pokazać
 }: EstimateInput): EstimateResult {
   const cfg = pricingConfig;
 
@@ -182,32 +193,51 @@ export function estimatePrice({
     .filter((a) => a.type === "per_m2")
     .reduce((sum, a) => sum + a.price, 0);
 
-  const effectivePricePerM2 =
-    (floorType.basePricePerM2 + addOnsPerM2) * tier.multiplier;
-
-  const fixedAddOns = addOns
+  const fixedAddOnsNet = addOns
     .filter((a) => a.type === "fixed")
     .reduce((sum, a) => sum + a.price, 0);
 
-  const subtotal = effectivePricePerM2 * areaM2 + fixedAddOns;
+  const vatMultiplier =
+    cfg.meta.vat.enabled && cfg.meta.vat.rate > 0 ? 1 + cfg.meta.vat.rate : 1;
 
-  const subtotalWithMinimum = Math.max(subtotal, cfg.meta.minimumJob.amount);
+  const effectivePricePerM2Net =
+    (floorType.basePricePerM2 + addOnsPerM2) * tier.multiplier;
 
-  const total =
-    includeVat && cfg.meta.vat.enabled
-      ? subtotalWithMinimum * (1 + cfg.meta.vat.rate)
-      : subtotalWithMinimum;
+  const subtotalNet = effectivePricePerM2Net * areaM2 + fixedAddOnsNet;
+
+  const subtotalWithMinimumNet = Math.max(subtotalNet, cfg.meta.minimumJob.amount);
+
+  const totalNet = subtotalWithMinimumNet;
+  const totalGross = subtotalWithMinimumNet * vatMultiplier;
+
+  const effectivePricePerM2Gross = effectivePricePerM2Net * vatMultiplier;
+
+  const fixedAddOnsGross = fixedAddOnsNet * vatMultiplier;
+
+  const subtotalGross = subtotalWithMinimumNet * vatMultiplier;
+
+  const round = (n: number) => Math.round(n);
 
   return {
     areaM2,
     tierId: tier.id,
     tierLabelNO: tier.labelNO,
     floorTypeLabelNO: floorType.labelNO,
-    effectivePricePerM2: Math.round(effectivePricePerM2),
-    fixedAddOns: Math.round(fixedAddOns),
-    subtotal: Math.round(subtotal),
-    minimumApplied: subtotal < cfg.meta.minimumJob.amount,
-    total: Math.round(total),
+
+    effectivePricePerM2Net: round(effectivePricePerM2Net),
+    effectivePricePerM2Gross: round(effectivePricePerM2Gross),
+
+    fixedAddOnsNet: round(fixedAddOnsNet),
+    fixedAddOnsGross: round(fixedAddOnsGross),
+
+    subtotalNet: round(subtotalWithMinimumNet),
+    subtotalGross: round(subtotalGross),
+
+    minimumApplied: subtotalNet < cfg.meta.minimumJob.amount,
+
+    totalNet: round(totalNet),
+    totalGross: round(totalGross),
+
     currency: cfg.meta.currency,
   };
 }

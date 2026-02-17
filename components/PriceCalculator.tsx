@@ -13,6 +13,7 @@ type PriceCalculatorProps = {
     estimatePerM2: number;
     tierLabel: string;
     minimumApplied: boolean;
+    includeVat: boolean;   
   }) => void;
 };
 
@@ -21,10 +22,17 @@ export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps)
 
   const cfg = pricingConfig;
 
+  const vatMultiplier =
+  cfg.meta.vat.enabled && cfg.meta.vat.rate > 0 ? 1 + cfg.meta.vat.rate : 1;
+
+  const displayPrice = (net: number) =>
+  Math.round(includeVat ? net * vatMultiplier : net);
+
+
   const [area, setArea] = useState<number>(cfg.meta.defaultArea);
   const [floorTypeId, setFloorTypeId] = useState<string>(cfg.floorTypes[0].id);
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
-  const [includeVat, setIncludeVat] = useState<boolean>(false);
+  const [includeVat, setIncludeVat] = useState<boolean>(true);
 
   const result = useMemo(() => {
 
@@ -57,7 +65,7 @@ export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps)
           <span className="font-medium text-[#1E1E1E]">
             {cfg.meta.minimumJob.labelNO}:
           </span>{" "}
-          {cfg.meta.minimumJob.amount.toLocaleString()} kr
+          {displayPrice(cfg.meta.minimumJob.amount).toLocaleString()} kr
         </div>
       </div>
 
@@ -79,7 +87,7 @@ export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps)
             >
               <div className="font-medium">{t.labelNO}</div>
               <div className="text-sm text-gray-500 mt-1">
-                {t.typicalRange.min}–{t.typicalRange.max} kr/m²
+                {displayPrice(t.typicalRange.min)}–{displayPrice(t.typicalRange.max)} kr/m²
               </div>
               {t.notesNO && (
                 <div className="text-xs text-gray-500 mt-2">{t.notesNO}</div>
@@ -140,7 +148,9 @@ export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps)
               </div>
 
               <div className="text-sm text-gray-500 whitespace-nowrap">
-                {a.type === "per_m2" ? `+${a.price} kr/m²` : `+${a.price} kr`}
+                {a.type === "per_m2"
+                ? `+${displayPrice(a.price)} kr/m²`
+                : `+${displayPrice(a.price)} kr`}
               </div>
             </label>
           ))}
@@ -157,7 +167,7 @@ export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps)
               onChange={() => setIncludeVat((v) => !v)}
               className="accent-[#C69C6D]"
             />
-            {cfg.meta.vat.labelNO}
+            {includeVat ? "Inkl. MVA" : "Ekskl. MVA"}
           </label>
         </div>
       )}
@@ -167,18 +177,18 @@ export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps)
         <div className="text-sm text-gray-500">{cfg.uiTextNO.estimatedLabel}</div>
 
         <div className="mt-2 text-4xl font-semibold">
-          {result.total.toLocaleString()} kr
+          {(includeVat ? result.totalGross : result.totalNet).toLocaleString()} kr
         </div>
 
         <div className="mt-3 text-sm text-gray-600">
-          {result.effectivePricePerM2} kr/m²{" "}
+          {(includeVat ? result.effectivePricePerM2Gross : result.effectivePricePerM2Net)} kr/m²
           <span className="text-gray-400">•</span>{" "}
           {result.tierLabelNO}
         </div>
 
         {result.minimumApplied && (
           <div className="mt-2 text-xs text-amber-700">
-            Minimumsjobb ({cfg.meta.minimumJob.amount.toLocaleString()} kr) er brukt.
+            Minimumsjobb ({displayPrice(cfg.meta.minimumJob.amount).toLocaleString()} kr) er brukt.
           </div>
         )}
 
@@ -192,8 +202,9 @@ export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps)
                 areaM2: area,
                 floorTypeLabel: result.floorTypeLabelNO,
                 addOns: selectedAddOnLabels,
-                estimateTotal: result.total,
-                estimatePerM2: result.effectivePricePerM2,
+                includeVat,
+                estimateTotal: includeVat ? result.totalGross : result.totalNet,
+                estimatePerM2: includeVat ? result.effectivePricePerM2Gross : result.effectivePricePerM2Net,
                 tierLabel: result.tierLabelNO,
                 minimumApplied: result.minimumApplied,
                 });
