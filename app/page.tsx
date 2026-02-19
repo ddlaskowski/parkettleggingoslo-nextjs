@@ -10,11 +10,13 @@ import Hero from "@/components/Hero";
 import CustomerReviews from "@/components/CustomerReviews";
 import TrustStrip from "./TrustStrip";
 import LocalSEO from "./LocalSeo";
+import StickyMobileCTA from "@/components/StickyMobileCTA";
 
 export default function Home() {
   return (
     <main className="min-h-screen bg-white text-[#1E1E1E]">
       <FAQSchema />
+      <StickyMobileCTA contactId="kontakt" priceId="pris" />
       <Header />
       {/* HERO */}
       <Hero/>

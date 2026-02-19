@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import { estimatePrice, pricingConfig } from "@/lib/pricingConfig";
 import { siteConfig } from "@/lib/siteConfig";
+import { track } from "@/lib/track";
+
 
 type PriceCalculatorProps = {
   onSendInquiry?: (payload: {
@@ -21,19 +23,19 @@ type PriceCalculatorProps = {
 export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps) {
 
   const cfg = pricingConfig;
-
-  const vatMultiplier =
-  cfg.meta.vat.enabled && cfg.meta.vat.rate > 0 ? 1 + cfg.meta.vat.rate : 1;
-
-  const displayPrice = (net: number) =>
-  Math.round(includeVat ? net * vatMultiplier : net);
-
-
+  
   const [area, setArea] = useState<number>(cfg.meta.defaultArea);
   const [floorTypeId, setFloorTypeId] = useState<string>(cfg.floorTypes[0].id);
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
   const [includeVat, setIncludeVat] = useState<boolean>(true);
-
+  
+    const vatMultiplier =
+    cfg.meta.vat.enabled && cfg.meta.vat.rate > 0 ? 1 + cfg.meta.vat.rate : 1;
+  
+    const displayPrice = (net: number) =>
+    Math.round(includeVat ? net * vatMultiplier : net);
+  
+  
   const result = useMemo(() => {
 
     return estimatePrice({
@@ -198,6 +200,7 @@ export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps)
         <button
             type="button"
             onClick={() => {
+                track("calculator_inquiry_click");
                 onSendInquiry?.({
                 areaM2: area,
                 floorTypeLabel: result.floorTypeLabelNO,
@@ -216,6 +219,7 @@ export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps)
         </button>
           <a
             href={`tel:${siteConfig.phoneE164}`}
+            onClick={() => track("phone_click")}
             className="border border-gray-300 hover:border-gray-500 px-5 py-3 rounded-xl transition text-sm"
           >
             Ring nå

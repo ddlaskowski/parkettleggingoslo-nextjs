@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { siteConfig } from "@/lib/siteConfig";
+import { track } from "@/lib/track";
 
 type Prefill = { message: string };
 
@@ -17,8 +18,30 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
   const [place, setPlace] = useState("");
   const [message, setMessage] = useState("");
   const [accept, setAccept] = useState(true);
-
+  const [hp, setHp] = useState(""); // honeypot
   const [status, setStatus] = useState<FormStatus>({ type: "idle" });
+
+  
+  function normalizePhone(input: string) {
+    return input.replace(/[^\d+()\- \t]/g, "").trim();
+  }
+
+  function digitsOnly(input: string) {
+    return input.replace(/\D/g, "");
+  }
+
+  function isValidPhone(input: string) {
+    const cleaned = normalizePhone(input);
+    const digits = digitsOnly(cleaned);
+
+    // min 8 cyfr (Norwegia), max 15 (E.164)
+    if (digits.length < 8 || digits.length > 15) return false;
+
+    // jeżeli jest plus, to tylko na początku
+    if (cleaned.includes("+") && !cleaned.startsWith("+")) return false;
+
+    return true;
+  }
 
   useEffect(() => {
     if (prefill?.message) setMessage(prefill.message);
@@ -28,42 +51,47 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
     return (
       accept &&
       name.trim().length > 1 &&
-      phone.trim().length > 5 &&
+      isValidPhone(phone) &&
       message.trim().length > 5
     );
-  }, [accept, name, phone, message]);
+  }, [accept, name, phone, message, place]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
+    if (!isValidPhone(phone)) {
+      setStatus({ type: "error", message: "Ugyldig telefonnummer (min. 8 sifre)." });
+      return;
+    }
     if (!canSubmit) return;
 
     setStatus({ type: "loading" });
 
-    // "Område" wplecione do message (bez zmian na serwerze)
+    // "Område" in message
     const messageWithPlace = [
+      message.trim(),
       place.trim() ? `Område: ${place.trim()}` : null,
       "",
-      message.trim(),
     ]
       .filter(Boolean)
       .join("\n");
-
+    const phoneClean = normalizePhone(phone);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: name.trim(),
-          mobile: phone.trim(), // serwer dostaje string
-          email: "",            // brak emaila
+          mobile: phoneClean,
+          email: "",            // no email
           message: messageWithPlace,
           accept,
+          honeypot: hp,
         }),
       });
 
     const data = await res.json().catch(() => null);
 
-    if (!res.ok || !data?.messageId) {
+    if (!res.ok || !data?.messageId || data.messageId === "ignored")  {
       setStatus({
         type: "error",
         message: data?.error ?? "Noe gikk galt. Prøv igjen.",
@@ -72,12 +100,15 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
     }
 
     setStatus({ type: "success" });
+    track("contact_submit_success");
 
     setName(""); setPhone(""); setPlace(""); setMessage("");
     } catch {
       setStatus({ type: "error", message: "Nettverksfeil. Prøv igjen." });
     }
   }
+
+
 
   return (
     <div className="grid md:grid-cols-2 gap-10">
@@ -99,9 +130,14 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
             className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-gray-400"
             placeholder="Telefon (påkrevd)"
             value={phone}
-            onChange={(e) => setPhone(e.target.value)}
+            onChange={(e) => setPhone(normalizePhone(e.target.value))}
             autoComplete="tel"
           />
+          {phone.length > 0 && !isValidPhone(phone) && (
+            <p className="text-xs text-red-700">
+              Skriv inn et gyldig telefonnummer (min. 8 sifre).
+            </p>
+          )}
           <input
             className="w-full border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-gray-400"
             placeholder="Område (Oslo, Bærum, Asker...)"
@@ -125,7 +161,17 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
             />
             Jeg godtar at dere kan kontakte meg angående forespørselen min.
           </label>
-
+          <div className="hidden" aria-hidden="true">
+            <label>
+              Company
+              <input
+                tabIndex={-1}
+                autoComplete="off"
+                value={hp}
+                onChange={(e) => setHp(e.target.value)}
+              />
+            </label>
+          </div>
           <button
             type="submit"
             disabled={!canSubmit || status.type === "loading"}

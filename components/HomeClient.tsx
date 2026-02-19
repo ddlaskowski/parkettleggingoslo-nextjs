@@ -1,12 +1,17 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PriceCalculator from "@/components/PriceCalculator";
 import ContactForm from "@/components/ContactForm";
 
+
+
 export default function HomeClient() {
   const [prefillMessage, setPrefillMessage] = useState<string>("");
-
+  
+  useEffect(() => {
+    fetch("/api/handshake", { method: "POST" }).catch(() => {});
+  }, []);
   return (
     <>
       <section id="pris" className="max-w-6xl mx-auto px-6 py-20">
@@ -17,9 +22,11 @@ export default function HomeClient() {
 
             setPrefillMessage(
               `Type gulv: ${p.floorTypeLabel}\n` +
-                `Areal: ${p.areaM2} m² (${p.tierLabel})\n` +
+                `Areal: ${p.areaM2} m² \n` +
                 `Tilvalg: ${addOnsLine}\n` +
-                `Estimert pris: ${p.estimateTotal.toLocaleString()} kr\n` +
+                `Estimert pris: ${p.estimateTotal.toLocaleString()} kr ${
+                  p.includeVat ? "(inkl. MVA)" : "(eks. MVA)"
+                }\n` +
                 `Estimert pris per m²: ${p.estimatePerM2.toLocaleString()} kr/m²\n` +
                 `${minLine}\n\n` +
                 `Adresse/etasje/parkering (valgfritt):`

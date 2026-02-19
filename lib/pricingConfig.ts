@@ -46,9 +46,9 @@ export const pricingConfig = {
   },
 
   areaTiers: [
-    { id: "tier_small", labelNO: "10–39 m²", min: 10, max: 39, multiplier: 1.0 },
-    { id: "tier_medium", labelNO: "40–79 m²", min: 40, max: 79, multiplier: 0.93 },
-    { id: "tier_large", labelNO: "80+ m²", min: 80, max: 9999, multiplier: 0.88 },
+    { id: "tier_small", labelNO: "10–69 m²", min: 10, max: 69, multiplier: 1.0 },
+    { id: "tier_medium", labelNO: "70–119 m²", min: 70, max: 119, multiplier: 0.93 },
+    { id: "tier_large", labelNO: "120+ m²", min: 120, max: 9999, multiplier: 0.88 },
   ] satisfies AreaTier[],
 
   floorTypes: [
@@ -118,13 +118,6 @@ export const pricingConfig = {
       type: "per_m2",
       price: 129,
       range: { min: 90, max: 180 },
-    },
-    {
-      id: "rigg_fixed",
-      labelNO: "Oppmøte / rigg",
-      type: "fixed",
-      price: 990,
-      noteNO: "Kan variere med parkering/tilkomst og omfang.",
     },
   ] satisfies AddOn[],
 
