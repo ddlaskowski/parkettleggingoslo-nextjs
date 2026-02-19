@@ -1,4 +1,4 @@
-export type AddOnType = "per_m2" | "fixed";
+export type AddOnType = "per_m2";
 
 export type AreaTier = {
   id: string;
@@ -186,9 +186,7 @@ export function estimatePrice({
     .filter((a) => a.type === "per_m2")
     .reduce((sum, a) => sum + a.price, 0);
 
-  const fixedAddOnsNet = addOns
-    .filter((a) => a.type === "fixed")
-    .reduce((sum, a) => sum + a.price, 0);
+  const fixedAddOnsNet = 0;
 
   const vatMultiplier =
     cfg.meta.vat.enabled && cfg.meta.vat.rate > 0 ? 1 + cfg.meta.vat.rate : 1;
