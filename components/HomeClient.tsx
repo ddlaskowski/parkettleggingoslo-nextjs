@@ -4,14 +4,13 @@ import { useState, useEffect } from "react";
 import PriceCalculator from "@/components/PriceCalculator";
 import ContactForm from "@/components/ContactForm";
 
-
-
 export default function HomeClient() {
   const [prefillMessage, setPrefillMessage] = useState<string>("");
-  
+
   useEffect(() => {
     fetch("/api/handshake", { method: "POST" }).catch(() => {});
   }, []);
+
   return (
     <>
       <section id="pris" className="max-w-6xl mx-auto px-6 py-20">
@@ -26,6 +25,7 @@ export default function HomeClient() {
                 `Mønster: ${p.patternLabel}\n` +
                 (p.patternExtras.length ? `Ramme/tillegg: ${p.patternExtras.join(", ")}\n` : "") +
                 `Tilvalg: ${addOnsLine}\n` +
+                `Avfallshåndtering: ${p.wasteDisposal}\n` +
                 `Estimert pris: ${p.estimateTotal.toLocaleString()} kr ${
                   p.includeVat ? "(inkl. MVA)" : "(eks. MVA)"
                 }\n` +

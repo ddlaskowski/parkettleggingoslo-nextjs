@@ -25,6 +25,10 @@ export type PatternId = (typeof PATTERN_IDS)[number];
 export const PATTERN_EXTRA_IDS = ["border_frame"] as const;
 export type PatternExtraId = (typeof PATTERN_EXTRA_IDS)[number];
 
+// ✅ waste disposal
+export const WASTE_DISPOSAL_IDS = ["none", "new_only", "new_and_old"] as const;
+export type WasteDisposalId = (typeof WASTE_DISPOSAL_IDS)[number];
+
 export type FloorType = {
   id: FloorTypeId;
   labelNO: string;
@@ -57,6 +61,30 @@ export type PatternExtra = {
   noteNO?: string;
   allowedPatternIds?: PatternId[];
 };
+
+export type WasteDisposalOption =
+  | {
+      id: "none";
+      labelNO: string;
+      type: "none";
+      noteNO?: string;
+    }
+  | {
+      id: "new_only";
+      labelNO: string;
+      type: "fixed";
+      price: number; // net
+      noteNO?: string;
+    }
+  | {
+      id: "new_and_old";
+      labelNO: string;
+      type: "hybrid";
+      basePrice: number; // net
+      pricePerM2: number; // net
+      capPrice?: number;
+      noteNO?: string;
+    };
 
 export const pricingConfig = {
   meta: {
@@ -217,6 +245,30 @@ export const pricingConfig = {
     },
   ] satisfies AddOn[],
 
+  // ✅ NEW: Waste disposal
+  wasteDisposal: {
+    labelNO: "Avfallshåndtering",
+    options: [
+      { id: "none", labelNO: "Ingen", type: "none" },
+      {
+        id: "new_only",
+        labelNO: "Avfall etter legging (emballasje og monteringsavfall)",
+        type: "fixed",
+        price: 990,
+        noteNO: "Fast pris. Gjelder normalt avfall etter montering.",
+      },
+      {
+        id: "new_and_old",
+        labelNO: "Avfallshåndtering inkl. gammelt gulv",
+        type: "hybrid",
+        basePrice: 990,
+        pricePerM2: 35,
+        capPrice: 8900,
+        noteNO: "Basert på areal. Endelig pris etter befaring ved tungt avfall.",
+      },
+    ] satisfies WasteDisposalOption[],
+  },
+
   uiTextNO: {
     title: "Priskalkulator",
     subtitle: "Veiledende priser for arbeid. Endelig pris avtales etter gratis befaring.",
@@ -235,6 +287,7 @@ export type EstimateInput = {
   selectedAddOnIds?: string[];
   patternId?: PatternId;
   selectedPatternExtraIds?: PatternExtraId[];
+  wasteDisposalId?: WasteDisposalId;
   includeVat?: boolean;
 };
 
@@ -255,6 +308,10 @@ export type EstimateResult = {
 
   minimumApplied: boolean;
 
+  wasteDisposalLabelNO: string;
+  wasteDisposalNet: number;
+  wasteDisposalGross: number;
+
   totalNet: number;
   totalGross: number;
 
@@ -267,6 +324,7 @@ export function estimatePrice({
   selectedAddOnIds = [],
   patternId = "straight",
   selectedPatternExtraIds = [],
+  wasteDisposalId = "none",
 }: EstimateInput): EstimateResult {
   const cfg = pricingConfig;
 
@@ -295,18 +353,35 @@ export function estimatePrice({
   const vatMultiplier =
     cfg.meta.vat.enabled && cfg.meta.vat.rate > 0 ? 1 + cfg.meta.vat.rate : 1;
 
+  // ✅ Labor / installation (with multipliers)
   const effectivePricePerM2Net =
-    (floorType.basePricePerM2 + addOnsPerM2) * tier.multiplier * patternMultiplier * extrasMultiplier;
+    (floorType.basePricePerM2 + addOnsPerM2) *
+    tier.multiplier *
+    patternMultiplier *
+    extrasMultiplier;
 
-  const subtotalNet = effectivePricePerM2Net * areaM2;
+  const laborSubtotalNet = effectivePricePerM2Net * areaM2;
+  const laborWithMinimumNet = Math.max(laborSubtotalNet, cfg.meta.minimumJob.amount);
+  const minimumApplied = laborSubtotalNet < cfg.meta.minimumJob.amount;
 
-  const subtotalWithMinimumNet = Math.max(subtotalNet, cfg.meta.minimumJob.amount);
+  // ✅ Waste disposal (separate, no tier/pattern/extras multipliers)
+  const wasteOpt =
+    cfg.wasteDisposal.options.find((o) => o.id === wasteDisposalId) ?? cfg.wasteDisposal.options[0];
 
-  const totalNet = subtotalWithMinimumNet;
-  const totalGross = subtotalWithMinimumNet * vatMultiplier;
+  let wasteNet = 0;
+  const wasteLabelNO = wasteOpt.labelNO;
 
-  const effectivePricePerM2Gross = effectivePricePerM2Net * vatMultiplier;
-  const subtotalGross = subtotalWithMinimumNet * vatMultiplier;
+  if (wasteOpt.type === "fixed") {
+    wasteNet = wasteOpt.price;
+  } else if (wasteOpt.type === "hybrid") {
+    wasteNet = wasteOpt.basePrice + wasteOpt.pricePerM2 * areaM2;
+    if (typeof wasteOpt.capPrice === "number") {
+      wasteNet = Math.min(wasteNet, wasteOpt.capPrice);
+    }
+  }
+
+  const totalNet = laborWithMinimumNet + wasteNet;
+  const totalGross = totalNet * vatMultiplier;
 
   const round = (n: number) => Math.round(n);
 
@@ -320,12 +395,16 @@ export function estimatePrice({
     patternExtraLabelsNO: allowedExtras.map((x) => x.labelNO),
 
     effectivePricePerM2Net: round(effectivePricePerM2Net),
-    effectivePricePerM2Gross: round(effectivePricePerM2Gross),
+    effectivePricePerM2Gross: round(effectivePricePerM2Net * vatMultiplier),
 
-    subtotalNet: round(subtotalWithMinimumNet),
-    subtotalGross: round(subtotalGross),
+    subtotalNet: round(laborWithMinimumNet),
+    subtotalGross: round(laborWithMinimumNet * vatMultiplier),
 
-    minimumApplied: subtotalNet < cfg.meta.minimumJob.amount,
+    minimumApplied,
+
+    wasteDisposalLabelNO: wasteLabelNO,
+    wasteDisposalNet: round(wasteNet),
+    wasteDisposalGross: round(wasteNet * vatMultiplier),
 
     totalNet: round(totalNet),
     totalGross: round(totalGross),

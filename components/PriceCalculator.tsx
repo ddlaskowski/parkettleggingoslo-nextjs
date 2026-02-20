@@ -1,12 +1,16 @@
 "use client";
 
-import { useMemo, useEffect, useState } from "react";
+import { useMemo, useEffect, useRef, useState } from "react";
 import { estimatePrice, pricingConfig } from "@/lib/pricingConfig";
 import { siteConfig } from "@/lib/siteConfig";
 import { track } from "@/lib/track";
-import type { FloorTypeId, PatternId, PatternExtraId } from "@/lib/pricingConfig";
-import {IconRett, IconDiagonal, IconMosaic, IconChevron, IconFiskeben} from './PatternIcons';
-
+import type {
+  FloorTypeId,
+  PatternId,
+  PatternExtraId,
+  WasteDisposalId,
+} from "@/lib/pricingConfig";
+import { IconRett, IconDiagonal, IconMosaic, IconChevron, IconFiskeben } from "./PatternIcons";
 
 type PriceCalculatorProps = {
   onSendInquiry?: (payload: {
@@ -15,6 +19,7 @@ type PriceCalculatorProps = {
     patternLabel: string;
     patternExtras: string[];
     addOns: string[];
+    wasteDisposal: string;
     estimateTotal: number;
     estimatePerM2: number;
     tierLabel: string;
@@ -23,16 +28,18 @@ type PriceCalculatorProps = {
   }) => void;
 };
 
+const REMOVE_OLD_FLOOR_ID = "remove_old_floor" as const;
+
 export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps) {
   const cfg = pricingConfig;
 
   const [area, setArea] = useState<number>(cfg.meta.defaultArea);
 
-  // ✅ typowane ID
   const [floorTypeId, setFloorTypeId] = useState<FloorTypeId>(cfg.floorTypes[0].id);
   const [patternId, setPatternId] = useState<PatternId>(cfg.patterns[0].id);
   const [selectedPatternExtras, setSelectedPatternExtras] = useState<PatternExtraId[]>([]);
   const [selectedAddOns, setSelectedAddOns] = useState<string[]>([]);
+  const [wasteDisposalId, setWasteDisposalId] = useState<WasteDisposalId>("none");
   const [includeVat, setIncludeVat] = useState<boolean>(true);
 
   const allowedPatternIdsForFloor: Partial<Record<FloorTypeId, PatternId[]>> = {
@@ -42,18 +49,32 @@ export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps)
   const allowedPatternsForSelectedFloor: PatternId[] =
     allowedPatternIdsForFloor[floorTypeId] ?? cfg.patterns.map((p) => p.id);
 
-  
-useEffect(() => {
-  if (!allowedPatternsForSelectedFloor.includes(patternId)) {
-    setPatternId("straight");
-    setSelectedPatternExtras([]);
-  }
+  useEffect(() => {
+    if (!allowedPatternsForSelectedFloor.includes(patternId)) {
+      setPatternId("straight");
+      setSelectedPatternExtras([]);
+    }
 
-  if (floorTypeId !== "parkett_limt" && selectedPatternExtras.length > 0) {
-    setSelectedPatternExtras([]);
-  }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-}, [floorTypeId]);
+    if (floorTypeId !== "parkett_limt" && selectedPatternExtras.length > 0) {
+      setSelectedPatternExtras([]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [floorTypeId]);
+
+  // ✅ Sugestia tylko przy zaznaczeniu "remove_old_floor" (OFF -> ON)
+  const prevHasRemoveOldRef = useRef<boolean>(false);
+
+  useEffect(() => {
+    const hasRemoveOld = selectedAddOns.includes(REMOVE_OLD_FLOOR_ID);
+    const prevHasRemoveOld = prevHasRemoveOldRef.current;
+
+    // przejście OFF -> ON
+    if (!prevHasRemoveOld && hasRemoveOld) {
+      setWasteDisposalId("new_and_old");
+    }
+
+    prevHasRemoveOldRef.current = hasRemoveOld;
+  }, [selectedAddOns]);
 
   const vatMultiplier =
     cfg.meta.vat.enabled && cfg.meta.vat.rate > 0 ? 1 + cfg.meta.vat.rate : 1;
@@ -67,9 +88,10 @@ useEffect(() => {
       selectedAddOnIds: selectedAddOns,
       patternId,
       selectedPatternExtraIds: selectedPatternExtras,
+      wasteDisposalId,
       includeVat,
     });
-  }, [area, floorTypeId, selectedAddOns, patternId, selectedPatternExtras, includeVat]);
+  }, [area, floorTypeId, selectedAddOns, patternId, selectedPatternExtras, wasteDisposalId, includeVat]);
 
   function toggleAddOn(id: string) {
     setSelectedAddOns((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
@@ -84,6 +106,8 @@ useEffect(() => {
   const selectedAddOnLabels = cfg.addOns
     .filter((a) => selectedAddOns.includes(a.id))
     .map((a) => a.labelNO);
+
+  const hasRemoveOld = selectedAddOns.includes(REMOVE_OLD_FLOOR_ID);
 
   return (
     <section className="bg-[#F5F3EF] border border-gray-200 rounded-3xl p-6 md:p-10">
@@ -132,41 +156,36 @@ useEffect(() => {
           {cfg.patterns
             .filter((p) => allowedPatternsForSelectedFloor.includes(p.id))
             .map((p) => (
-            <button
-              key={p.id}
-              type="button"
-              onClick={() => {
-                setPatternId(p.id);
-                setSelectedPatternExtras([]);
-              }}
-              className={`text-left rounded-2xl border p-4 transition bg-white
+              <button
+                key={p.id}
+                type="button"
+                onClick={() => {
+                  setPatternId(p.id);
+                  setSelectedPatternExtras([]);
+                }}
+                className={`text-left rounded-2xl border p-4 transition bg-white
                 ${
                   patternId === p.id
                     ? "border-[#C69C6D] shadow-sm"
                     : "border-gray-200 hover:border-gray-400"
                 }`}
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <div className="font-medium">{p.labelNO}</div>
-                  {p.noteNO && <div className="text-xs text-gray-500 mt-2">{p.noteNO}</div>}
-                </div>
+              >
+                <div className="flex items-center justify-between">
+                  <div>
+                    <div className="font-medium">{p.labelNO}</div>
+                    {p.noteNO && <div className="text-xs text-gray-500 mt-2">{p.noteNO}</div>}
+                  </div>
 
-                <div className="text-[#C69C6D]">
-                  {p.id === "straight" && <IconRett />}
-                  {p.id === "diagonal" && <IconDiagonal />}
-                  {p.id === "mosaic" && <IconMosaic />}
-                  {p.id === "chevron" && <IconChevron
-                    angleDeg={50}
-                    plankLength={40}
-                    n={3}
-                  /> }
-                  {p.id === "fiskeben" && <IconFiskeben 
-                  />}
+                  <div className="text-[#C69C6D]">
+                    {p.id === "straight" && <IconRett />}
+                    {p.id === "diagonal" && <IconDiagonal />}
+                    {p.id === "mosaic" && <IconMosaic />}
+                    {p.id === "chevron" && <IconChevron angleDeg={50} plankLength={40} n={3} />}
+                    {p.id === "fiskeben" && <IconFiskeben />}
+                  </div>
                 </div>
-              </div>
-            </button>
-          ))}
+              </button>
+            ))}
         </div>
 
         {/* Pattern extras */}
@@ -264,6 +283,59 @@ useEffect(() => {
         </div>
       </div>
 
+      {/* Waste disposal */}
+      <div className="mt-6">
+        <div className="text-sm text-gray-500 mb-3">{cfg.wasteDisposal.labelNO}</div>
+
+        <div className="grid md:grid-cols-2 gap-3">
+          {cfg.wasteDisposal.options.map((o) => {
+            const checked = wasteDisposalId === o.id;
+
+            const rightText =
+              o.type === "fixed"
+                ? `+${displayPrice(o.price)} kr`
+                : o.type === "hybrid"
+                  ? `+${displayPrice(o.basePrice)} kr + ${displayPrice(o.pricePerM2)} kr/m²`
+                  : "";
+
+            const showSelfDemolitionHint =
+              o.id === "new_and_old" && checked && !hasRemoveOld;
+
+            return (
+              <label
+                key={o.id}
+                className="flex items-center justify-between gap-4 bg-white border border-gray-200 rounded-2xl p-4"
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    type="radio"
+                    name="wasteDisposal"
+                    checked={checked}
+                    onChange={() => setWasteDisposalId(o.id)}
+                    className="accent-[#C69C6D]"
+                  />
+                  <div>
+                    <div className="text-sm font-medium">{o.labelNO}</div>
+                    {"noteNO" in o && o.noteNO && (
+                      <div className="text-xs text-gray-500">{o.noteNO}</div>
+                    )}
+                    {showSelfDemolitionHint && (
+                      <div className="text-xs text-gray-500 mt-1">
+                        Gjelder også hvis du demonterer gulvet selv (vi kan hente og kjøre bort).
+                      </div>
+                    )}
+                  </div>
+                </div>
+
+                {rightText && (
+                  <div className="text-sm text-gray-500 whitespace-nowrap">{rightText}</div>
+                )}
+              </label>
+            );
+          })}
+        </div>
+      </div>
+
       {/* VAT toggle */}
       {cfg.meta.vat.enabled && (
         <div className="mt-8">
@@ -292,6 +364,13 @@ useEffect(() => {
           <span className="text-gray-400">•</span> {result.tierLabelNO}
         </div>
 
+        {result.wasteDisposalNet > 0 && (
+          <div className="mt-2 text-xs text-gray-600">
+            {result.wasteDisposalLabelNO}:{" "}
+            {(includeVat ? result.wasteDisposalGross : result.wasteDisposalNet).toLocaleString()} kr
+          </div>
+        )}
+
         {result.minimumApplied && (
           <div className="mt-2 text-xs text-amber-700">
             Minimumsjobb ({displayPrice(cfg.meta.minimumJob.amount).toLocaleString()} kr) er brukt.
@@ -311,6 +390,7 @@ useEffect(() => {
                 patternLabel: result.patternLabelNO,
                 patternExtras: result.patternExtraLabelsNO,
                 addOns: selectedAddOnLabels,
+                wasteDisposal: result.wasteDisposalLabelNO,
                 includeVat,
                 estimateTotal: includeVat ? result.totalGross : result.totalNet,
                 estimatePerM2: includeVat ? result.effectivePricePerM2Gross : result.effectivePricePerM2Net,
