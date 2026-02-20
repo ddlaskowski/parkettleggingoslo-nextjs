@@ -8,8 +8,25 @@ export type AreaTier = {
   multiplier: number;
 };
 
+// 1) ID jako const -> typy bez pętli
+export const FLOOR_TYPE_IDS = [
+  "laminat_click",
+  "vinyl_click",
+  "parkett_click",
+  "parkett_limt",
+  "heltre",
+] as const;
+
+export type FloorTypeId = (typeof FLOOR_TYPE_IDS)[number];
+
+export const PATTERN_IDS = ["straight", "diagonal", "fiskeben", "chevron", "mosaic"] as const;
+export type PatternId = (typeof PATTERN_IDS)[number];
+
+export const PATTERN_EXTRA_IDS = ["border_frame"] as const;
+export type PatternExtraId = (typeof PATTERN_EXTRA_IDS)[number];
+
 export type FloorType = {
-  id: string;
+  id: FloorTypeId;
   labelNO: string;
   basePricePerM2: number;
   typicalRange: { min: number; max: number };
@@ -25,6 +42,22 @@ export type AddOn = {
   noteNO?: string;
 };
 
+export type Pattern = {
+  id: PatternId;
+  labelNO: string;
+  multiplierByFloorTypeId: Partial<Record<FloorTypeId, number>>;
+  defaultMultiplier: number;
+  noteNO?: string;
+};
+
+export type PatternExtra = {
+  id: PatternExtraId;
+  labelNO: string;
+  multiplier: number;
+  noteNO?: string;
+  allowedPatternIds?: PatternId[];
+};
+
 export const pricingConfig = {
   meta: {
     currency: "NOK",
@@ -35,7 +68,7 @@ export const pricingConfig = {
     step: 1,
     minimumJob: {
       labelNO: "Minimumsjobb",
-      amount: 5000,
+      amount: 4000,
       descriptionNO: "Gjelder små jobber (rigg, oppmøte og planlegging).",
     },
     vat: {
@@ -55,60 +88,123 @@ export const pricingConfig = {
     {
       id: "laminat_click",
       labelNO: "Laminat (klikk)",
-      basePricePerM2: 329,
-      typicalRange: { min: 299, max: 349 },
+      basePricePerM2: 270,
+      typicalRange: { min: 239, max: 449 },
       notesNO: "Veiledende pris for standard legging på jevnt underlag.",
     },
     {
       id: "vinyl_click",
       labelNO: "Vinyl (klikk)",
-      basePricePerM2: 369,
-      typicalRange: { min: 329, max: 399 },
+      basePricePerM2: 296,
+      typicalRange: { min: 269, max: 499 },
       notesNO: "Veiledende pris. Avretting kan komme i tillegg ved behov.",
     },
     {
       id: "parkett_click",
       labelNO: "Parkett (klikk)",
-      basePricePerM2: 549,
-      typicalRange: { min: 449, max: 649 },
+      basePricePerM2: 439,
+      typicalRange: { min: 389, max: 669 },
       notesNO: "Klikk-parkett. Pris avhenger av mønster og romløsning.",
     },
     {
       id: "parkett_limt",
       labelNO: "Parkett (limt)",
-      basePricePerM2: 749,
-      typicalRange: { min: 550, max: 850 },
+      basePricePerM2: 599,
+      typicalRange: { min: 549, max: 969 },
       notesNO: "Limt parkett krever mer arbeid og riktig underlag.",
     },
     {
       id: "heltre",
       labelNO: "Heltre / massive trebord",
-      basePricePerM2: 1090,
-      typicalRange: { min: 850, max: 1250 },
+      basePricePerM2: 890,
+      typicalRange: { min: 789, max: 1059 },
       notesNO: "Heltre er mer krevende – befaring anbefales alltid.",
     },
   ] satisfies FloorType[],
+
+  patterns: [
+    {
+      id: "straight",
+      labelNO: "Rett legging",
+      defaultMultiplier: 1.0,
+      multiplierByFloorTypeId: {},
+      noteNO: "Standard mønster (mest vanlig).",
+    },
+    {
+      id: "diagonal",
+      labelNO: "Diagonal",
+      defaultMultiplier: 1.15,
+      multiplierByFloorTypeId: {
+        laminat_click: 1.12,
+        vinyl_click: 1.12,
+        parkett_click: 1.18,
+        parkett_limt: 1.22,
+      },
+      noteNO: "Mer kutt og tilpasning.",
+    },
+    {
+      id: "mosaic",
+      labelNO: "Mosaikk / ruter",
+      defaultMultiplier: 1.45,
+      multiplierByFloorTypeId: {
+        parkett_limt: 1.50,
+      },
+      noteNO: "Mer komplekst mønster.",
+    },
+    {
+      id: "fiskeben",
+      labelNO: "Fiskeben",
+      defaultMultiplier: 1.35,
+      multiplierByFloorTypeId: {
+        parkett_click: 1.30,
+        parkett_limt: 1.45,
+        heltre: 1.55,
+      },
+      noteNO: "Krever høy presisjon og tar mer tid.",
+    },
+    {
+      id: "chevron",
+      labelNO: "Chevron",
+      defaultMultiplier: 1.55,
+      multiplierByFloorTypeId: {
+        parkett_limt: 1.60,
+        parkett_click: 1.45,
+        heltre: 1.70,
+      },
+      noteNO: "Ekstra presisjon og tilpasning.",
+    },
+  ] satisfies Pattern[],
+
+  patternExtras: [
+    {
+      id: "border_frame",
+      labelNO: "Ramme / kant (border)",
+      multiplier: 1.25,
+      allowedPatternIds: ["straight", "diagonal", "fiskeben", "chevron", "mosaic"],
+      noteNO: "Øker tidsbruk pga. innramming og flere kutt.",
+    },
+  ] satisfies PatternExtra[],
 
   addOns: [
     {
       id: "remove_old_floor",
       labelNO: "Fjerning av gammelt gulv",
       type: "per_m2",
-      price: 99,
+      price: 79,
       range: { min: 70, max: 130 },
     },
     {
       id: "underlay",
       labelNO: "Underlag (montering)",
       type: "per_m2",
-      price: 39,
+      price: 19,
       range: { min: 25, max: 60 },
     },
     {
       id: "skirting",
       labelNO: "Gulvlister (montering)",
       type: "per_m2",
-      price: 99,
+      price: 79,
       range: { min: 40, max: 80 },
       noteNO: "Forenklet beregning. Endelig pris etter befaring.",
     },
@@ -116,15 +212,14 @@ export const pricingConfig = {
       id: "leveling",
       labelNO: "Avretting (ved behov)",
       type: "per_m2",
-      price: 129,
-      range: { min: 90, max: 180 },
+      price: 300,
+      range: { min: 90, max: 800 },
     },
   ] satisfies AddOn[],
 
   uiTextNO: {
     title: "Priskalkulator",
-    subtitle:
-      "Veiledende priser for arbeid. Endelig pris avtales etter gratis befaring.",
+    subtitle: "Veiledende priser for arbeid. Endelig pris avtales etter gratis befaring.",
     areaLabel: "Areal (m²)",
     floorTypeLabel: "Type gulv",
     addOnsLabel: "Tilvalg",
@@ -136,8 +231,10 @@ export const pricingConfig = {
 
 export type EstimateInput = {
   areaM2: number;
-  floorTypeId: string;
+  floorTypeId: FloorTypeId;
   selectedAddOnIds?: string[];
+  patternId?: PatternId;
+  selectedPatternExtraIds?: PatternExtraId[];
   includeVat?: boolean;
 };
 
@@ -147,12 +244,11 @@ export type EstimateResult = {
   tierLabelNO: string;
   floorTypeLabelNO: string;
 
-  // NET / GROSS
+  patternLabelNO: string;
+  patternExtraLabelsNO: string[];
+
   effectivePricePerM2Net: number;
   effectivePricePerM2Gross: number;
-
-  fixedAddOnsNet: number;
-  fixedAddOnsGross: number;
 
   subtotalNet: number;
   subtotalGross: number;
@@ -169,7 +265,8 @@ export function estimatePrice({
   areaM2,
   floorTypeId,
   selectedAddOnIds = [],
-  includeVat = false, // zostawiamy, ale UI i tak będzie wybierał co pokazać
+  patternId = "straight",
+  selectedPatternExtraIds = [],
 }: EstimateInput): EstimateResult {
   const cfg = pricingConfig;
 
@@ -180,21 +277,28 @@ export function estimatePrice({
     cfg.areaTiers.find((t) => areaM2 >= t.min && areaM2 <= t.max) ??
     cfg.areaTiers[cfg.areaTiers.length - 1];
 
+  const pattern = cfg.patterns.find((p) => p.id === patternId) ?? cfg.patterns[0];
+
+  const patternMultiplier =
+    pattern.multiplierByFloorTypeId[floorTypeId] ?? pattern.defaultMultiplier;
+
+  const extras = cfg.patternExtras.filter((x) => selectedPatternExtraIds.includes(x.id));
+  const allowedExtras = extras.filter(
+    (x) => !x.allowedPatternIds || x.allowedPatternIds.includes(pattern.id)
+  );
+
+  const extrasMultiplier = allowedExtras.reduce((m, x) => m * x.multiplier, 1);
+
   const addOns = cfg.addOns.filter((a) => selectedAddOnIds.includes(a.id));
-
-  const addOnsPerM2 = addOns
-    .filter((a) => a.type === "per_m2")
-    .reduce((sum, a) => sum + a.price, 0);
-
-  const fixedAddOnsNet = 0;
+  const addOnsPerM2 = addOns.reduce((sum, a) => sum + a.price, 0);
 
   const vatMultiplier =
     cfg.meta.vat.enabled && cfg.meta.vat.rate > 0 ? 1 + cfg.meta.vat.rate : 1;
 
   const effectivePricePerM2Net =
-    (floorType.basePricePerM2 + addOnsPerM2) * tier.multiplier;
+    (floorType.basePricePerM2 + addOnsPerM2) * tier.multiplier * patternMultiplier * extrasMultiplier;
 
-  const subtotalNet = effectivePricePerM2Net * areaM2 + fixedAddOnsNet;
+  const subtotalNet = effectivePricePerM2Net * areaM2;
 
   const subtotalWithMinimumNet = Math.max(subtotalNet, cfg.meta.minimumJob.amount);
 
@@ -202,9 +306,6 @@ export function estimatePrice({
   const totalGross = subtotalWithMinimumNet * vatMultiplier;
 
   const effectivePricePerM2Gross = effectivePricePerM2Net * vatMultiplier;
-
-  const fixedAddOnsGross = fixedAddOnsNet * vatMultiplier;
-
   const subtotalGross = subtotalWithMinimumNet * vatMultiplier;
 
   const round = (n: number) => Math.round(n);
@@ -215,11 +316,11 @@ export function estimatePrice({
     tierLabelNO: tier.labelNO,
     floorTypeLabelNO: floorType.labelNO,
 
+    patternLabelNO: pattern.labelNO,
+    patternExtraLabelsNO: allowedExtras.map((x) => x.labelNO),
+
     effectivePricePerM2Net: round(effectivePricePerM2Net),
     effectivePricePerM2Gross: round(effectivePricePerM2Gross),
-
-    fixedAddOnsNet: round(fixedAddOnsNet),
-    fixedAddOnsGross: round(fixedAddOnsGross),
 
     subtotalNet: round(subtotalWithMinimumNet),
     subtotalGross: round(subtotalGross),

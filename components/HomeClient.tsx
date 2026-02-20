@@ -23,6 +23,8 @@ export default function HomeClient() {
             setPrefillMessage(
               `Type gulv: ${p.floorTypeLabel}\n` +
                 `Areal: ${p.areaM2} m² \n` +
+                `Mønster: ${p.patternLabel}\n` +
+                (p.patternExtras.length ? `Ramme/tillegg: ${p.patternExtras.join(", ")}\n` : "") +
                 `Tilvalg: ${addOnsLine}\n` +
                 `Estimert pris: ${p.estimateTotal.toLocaleString()} kr ${
                   p.includeVat ? "(inkl. MVA)" : "(eks. MVA)"
