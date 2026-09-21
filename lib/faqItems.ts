@@ -33,6 +33,14 @@ export const FAQ_ITEMS: FAQItem[] = [
     a: "Ja, vi monterer gulvlister for et helhetlig og ferdig resultat.",
   },
   {
+    q: "Monterer dere gamle gulvlister på nytt?",
+    a: "Som regel gjør vi ikke det. Gamle lister passer sjelden pent til nytt gulv og gir ofte et dårligere sluttresultat. I tillegg tar det tid å fjerne spiker, rette opp skader og utbedre med akryl etter demontering – det sparer derfor vanligvis verken tid eller kostnad.",
+  },
+  {
+    q: "Hva er standarden deres for montering av gulvlister?",
+    a: "Vi monterer vanligvis lister med dykkert/spiker. Hull etter spiker og overgangen mellom list og vegg fuges med akryl som standard. Ønsker du sparkling og maling av lister, kan vi gjøre dette mot et tillegg.",
+  },
+  {
     q: "Må jeg tømme rommet før dere starter?",
     a: "Ja, rommet bør være tomt for møbler før arbeidet starter. Dette gir best og mest effektiv utførelse.",
   },
