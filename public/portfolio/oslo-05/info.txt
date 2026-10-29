@@ -1,8 +1,0 @@
-Tytuł	Fiskebensparkett Parky
-Lokalizacja	Oslo, Sentrum
-Rodzaj podłogi	Parkett
-Wzór	Fiskeben
-Montaż	Flytende
-Producent	Parky
-Opis	Montaż podłogi wraz z listwowaniem około 65m2
-

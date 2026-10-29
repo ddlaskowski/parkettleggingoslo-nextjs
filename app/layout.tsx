@@ -5,9 +5,9 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://parkettleggingoslo.no"),
-  title: "Parkettlegging i Oslo – Legge parkett, laminat og heltre",
+  title: "Gulvlegging og parkettlegging i Oslo | Laskowski Bygg",
   description:
-  "Profesjonell parkettlegging i Oslo og omegn. Vi legger parkett, heltre, laminat og vinyl. Få gratis befaring og raskt tilbud.",
+  "Gulvlegging og parkettlegging i Oslo, Bærum og Asker. Vi legger parkett, laminat og fiskebensparkett. Se prosjekter, beregn pris og be om tilbud.",
   keywords: [
     "parkettlegging oslo",
     "legge parkett oslo",
@@ -20,9 +20,9 @@ export const metadata: Metadata = {
     canonical: "/",
   },
   openGraph: {
-    title: "Parkettlegging Oslo – Profesjonell gulvlegging",
+    title: "Gulvlegging og parkettlegging i Oslo | Laskowski Bygg",
     description:
-      "Vi legger parkett, heltre og laminat i Oslo. Gratis befaring og tydelig pris.",
+      "Gulvlegging og parkettlegging i Oslo, Bærum og Asker. Vi legger parkett, laminat og fiskebensparkett. Se prosjekter, beregn pris og be om tilbud.",
     url: "https://parkettleggingoslo.no",
     siteName: "Parkettlegging Oslo",
     locale: "nb_NO",
@@ -32,15 +32,15 @@ export const metadata: Metadata = {
         url: "/og.png",
         width: 1200,
         height: 630,
-        alt: "Parkettlegging Oslo – Profesjonell gulvlegging",
+        alt: "Gulvlegging og parkettlegging – Laskowski Bygg",
       },
     ],
   },
    twitter: {
     card: "summary_large_image",
-    title: "Parkettlegging Oslo",
+    title: "Gulvlegging og parkettlegging i Oslo | Laskowski Bygg",
     description:
-      "Profesjonell parkettlegging i Oslo og omegn.",
+      "Gulvlegging og parkettlegging i Oslo, Bærum og Asker. Vi legger parkett, laminat og fiskebensparkett. Se prosjekter, beregn pris og be om tilbud.",
     images: ["/og.png"],
   },
 };

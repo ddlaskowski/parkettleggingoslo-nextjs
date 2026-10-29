@@ -30,7 +30,7 @@ useEffect(() => {
   const isWeekend = day === 0 || day === 6;
   const isBusinessHours = hour >= 8 && hour < 17; // 08:00–16:59
 
-  if (!isWeekend && isBusinessHours) return "Rask svar i dag";
+  if (!isWeekend && isBusinessHours) return "Raskt svar i dag";
   return "Svar neste arbeidsdag";
 }
 

@@ -4,7 +4,7 @@ return (
 <section id="kundeomtaler" className="max-w-6xl mx-auto px-6 py-20">
   <div className="flex items-end justify-between gap-6 flex-wrap">
     <div>
-      <h2 className="text-3xl font-semibold">Referanser</h2>
+      <h2 className="text-3xl font-semibold">Kundeomtaler</h2>
       <p className="mt-3 text-gray-600 max-w-2xl">
         Noen korte tilbakemeldinger fra kunder i Oslo og omegn.
       </p>
@@ -48,7 +48,7 @@ return (
 
     <div className="border border-gray-200 rounded-2xl p-6 bg-white">
       <p className="text-gray-700 text-sm leading-relaxed">
-        `Vi ble helt utrolig fornøyde med jobben Laskowski bygg gjorde for oss med å legge ny parkett i vår 91 kvm leilighet. Resultatet er upåklagelig, og det er tydelig at de har lang erfaring i faget da arbeidet er utført med høy kvalitet. De tok utfordringer som dukket opp på strak arm, og hjalp oss fikse/handle riktige produkter. Effektive og konkurransedyktige på pris. Vil absolutt bruke bedriften igjen om vi trenger hjelp til snekkerarbeid :)`
+        Vi ble helt utrolig fornøyde med jobben Laskowski bygg gjorde for oss med å legge ny parkett i vår 91 kvm leilighet. Resultatet er upåklagelig, og det er tydelig at de har lang erfaring i faget da arbeidet er utført med høy kvalitet. De tok utfordringer som dukket opp på strak arm, og hjalp oss fikse/handle riktige produkter. Effektive og konkurransedyktige på pris. Vil absolutt bruke bedriften igjen om vi trenger hjelp til snekkerarbeid :)
       </p>
       <div className="mt-5 text-sm text-gray-500">— Malin</div>
     </div>

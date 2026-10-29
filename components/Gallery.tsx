@@ -4,11 +4,24 @@ import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 
-const images = Array.from({ length: 10 }, (_, i) => {
+const imageDescriptions = [
+  "Fiskebensmønster gjennom en dobbel døråpning",
+  "Fiskebensgulv i gang med hvite gulvlister",
+  "Overgang med nivåforskjell mellom to gulvflater",
+  "Gulvpakke på lyst fiskebensgulv",
+  "Brunt fiskebensgulv med stablede gulvpakker",
+  "Fiskebensgulv og hvite gulvlister mot mønstret tapet",
+  "Fiskebensgulv foran bokhyller og glassdør",
+  "Gulvpakke på lyse gulvbord i rett mønster",
+  "Lyst fiskebensgulv gjennom flere rom under arbeid",
+  "Fiskebensmønster med ramme langs veggen under legging",
+];
+
+const images = imageDescriptions.map((alt, i) => {
   const n = String(i + 1).padStart(2, "0");
   return {
     src: `/work/parkettleggingoslo_${n}.jpg`,
-    alt: `Parkett – referanse ${n}`,
+    alt,
   };
 });
 
@@ -153,7 +166,7 @@ export default function Gallery({ projectCount }: { projectCount: number }) {
 
   return (
     <section id="referanser" className="max-w-6xl mx-auto px-6 py-20">
-      <h2 className="text-3xl font-semibold">Referanser</h2>
+      <h2 className="text-3xl font-semibold">Bilder fra gulvprosjekter</h2>
       <p className="mt-3 text-gray-600 max-w-2xl">
         Bilder av gulvarbeid, mønster og avslutninger.
       </p>

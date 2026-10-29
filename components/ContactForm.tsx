@@ -117,8 +117,8 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
     <div className="grid md:grid-cols-2 gap-10">
       <div className="bg-white border border-gray-200 rounded-2xl p-6">
         <h2 className="text-xl font-semibold">Kontakt</h2>
-        <p className="mt-2 text-gray-600 text-sm">
-          Skriv kort hva du trenger, så tar vi kontakt.
+        <p id={`${formId}-guidance`} className="mt-2 text-gray-600 text-sm">
+          Oppgi gulvtype, omtrent areal, hvilke rom det gjelder og hvor boligen ligger. Fortell også om gammelt gulv skal fjernes og om du ønsker nye gulvlister.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -164,7 +164,8 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
             id={`${formId}-message`}
             required
             className="w-full min-h-[160px] border border-gray-200 rounded-xl px-4 py-3 focus:outline-none focus:border-gray-400"
-            placeholder="Melding"
+            aria-describedby={`${formId}-guidance`}
+            placeholder="Gulvtype, omtrent areal, rom og område"
             value={message}
             onChange={(e) => setMessage(e.target.value)}
           />

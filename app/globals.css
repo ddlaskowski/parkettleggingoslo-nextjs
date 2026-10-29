@@ -55,10 +55,6 @@ a.text-\[\#C69C6D\] {
 
 /* Fit the existing homepage content on the smallest supported screens. */
 @media (max-width: 374px) {
-  #hjem h1 {
-    font-size: 2.25rem;
-  }
-
   #priser #pris label {
     flex-wrap: wrap;
   }

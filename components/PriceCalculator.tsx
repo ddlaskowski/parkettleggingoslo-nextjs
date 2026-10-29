@@ -240,6 +240,7 @@ export default function PriceCalculator({ onSendInquiry }: PriceCalculatorProps)
 
         <input
           type="range"
+          aria-label="Areal i kvadratmeter"
           min={cfg.meta.minArea}
           max={cfg.meta.maxArea}
           step={cfg.meta.step}

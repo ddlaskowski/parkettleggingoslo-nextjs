@@ -17,7 +17,6 @@ export default function Home() {
   return (
     <main id="main-content" tabIndex={-1} className="min-h-screen bg-white text-[#1E1E1E]">
       <FAQSchema />
-      <StickyMobileCTA contactId="kontakt"/>
       <Header />
       {/* HERO */}
       <Hero/>
@@ -35,11 +34,13 @@ export default function Home() {
       <Process />
       {/* HOME CLIENT - PRICE CALCULATOR & CONTACT FORM */}
       {/* Keep #pris for existing calculator links and support the #priser alias. */}
-      <div id="priser"><HomeClient /></div>
+      <div id="priser"><HomeClient explainCalculator /></div>
       {/* LOKAL SEO */}
       <LocalSEO/>
       {/* FAQ */}
       <FAQ />
+      {/* Keep the mobile CTA spacer after content instead of above the hero. */}
+      <StickyMobileCTA contactId="kontakt"/>
     </main>
   );
 }

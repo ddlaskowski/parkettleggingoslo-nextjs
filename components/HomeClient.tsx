@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import PriceCalculator from "@/components/PriceCalculator";
 import ContactForm from "@/components/ContactForm";
 
-export default function HomeClient() {
+export default function HomeClient({ explainCalculator = false }: { explainCalculator?: boolean }) {
   const [prefillMessage, setPrefillMessage] = useState<string>("");
 
   useEffect(() => {
@@ -14,6 +14,7 @@ export default function HomeClient() {
   return (
     <>
       <section id="pris" className="max-w-6xl mx-auto px-6 py-20">
+        {explainCalculator && <p className="mb-6 max-w-3xl text-gray-600">Velg gulvtype, areal og tilvalg for å få et veiledende arbeidsestimat. «Send forespørsel» overfører valgene til kontaktskjemaet, der du kan legge til opplysninger før du sender.</p>}
         <PriceCalculator
           onSendInquiry={(p) => {
             const addOnsLine = p.addOns.length ? p.addOns.join(", ") : "Ingen";

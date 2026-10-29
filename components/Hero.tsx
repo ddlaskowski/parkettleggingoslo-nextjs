@@ -6,12 +6,12 @@ export default function Hero() {
     <section id="hjem" className="max-w-6xl mx-auto px-6 pt-28 pb-20">
       <div className="grid md:grid-cols-2 gap-12 items-center">
         <div>
-          <h1 className="text-5xl font-semibold leading-tight">
-            Parkettlegging i Oslo, Bærum og Asker.
+          <h1 className="text-[clamp(2.125rem,10.5vw,3rem)] font-semibold leading-tight">
+            Gulvlegging og parkettlegging i Oslo
           </h1>
 
           <p className="mt-5 text-lg text-gray-600">
-            Profesjonell parkettlegging. Gratis befaring, ryddig tilbud og presis utførelse – levert av {siteConfig.companyName}.
+            {siteConfig.companyName} legger parkett, laminat, klikkvinyl og heltre i Oslo, Bærum og Asker. Vi utfører også fiskebensparkett og limte parkettgulv.
           </p>
 
 
@@ -38,7 +38,7 @@ export default function Hero() {
           </div>
           
           <p className="mt-4 text-xs text-gray-500">
-            For mindre oppdrag gjelder minimumsjobb. Priskalkulatoren gir raskt estimat før befaring.
+            Vi legger nye gulv og utfører tilhørende gulvarbeid. For mindre oppdrag gjelder minimumsprisen som vises i kalkulatoren.
           </p>
 
         </div>

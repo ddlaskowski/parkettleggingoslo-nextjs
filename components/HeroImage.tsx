@@ -3,7 +3,11 @@
 import { useEffect, useState } from "react";
 import Image from "next/image";
 
-const heroImages = ["/bg_01.jpg", "/bg_02.jpg", "/bg_03.jpg"];
+const heroImages = [
+  { src: "/bg_01.jpg", alt: "Gulv i stue og spisestue med grå sofa og hvit trapp" },
+  { src: "/bg_02.jpg", alt: "Lyst gulv i åpen stue med spiseplass og vindusrekke" },
+  { src: "/bg_03.jpg", alt: "Brede gulvbord i stue med kjøkken og åpning mot terrassen" },
+];
 
 export default function HeroImage() {
   const [index, setIndex] = useState(0);
@@ -25,11 +29,11 @@ useEffect(() => {
 
   return (
     <div className="relative rounded-2xl overflow-hidden aspect-[4/3] border border-gray-200 bg-[#F5F3EF]">
-      {heroImages.map((src, i) => (
+      {heroImages.map(({ src, alt }, i) => (
         <Image
           key={src}
           src={src}
-          alt="Parkettlegging i Oslo"
+          alt={alt}
           fill
           priority={i === 0}
           className={`object-cover absolute inset-0 transition-opacity duration-1000 ${
