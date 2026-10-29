@@ -11,6 +11,7 @@ import CustomerReviews from "@/components/CustomerReviews";
 import TrustStrip from "./TrustStrip";
 import LocalSEO from "./LocalSeo";
 import StickyMobileCTA from "@/components/StickyMobileCTA";
+import { getPublishedProjects } from "@/lib/projects";
 
 export default function Home() {
   return (
@@ -27,13 +28,14 @@ export default function Home() {
       {/* WHY US */}
       <WhyUs />
       {/* GALLERY */}
-      <Gallery />
+      <Gallery projectCount={getPublishedProjects().length} />
       {/* Customer Reviews */}
       <CustomerReviews/>
       {/* PROCESS */}
       <Process />
       {/* HOME CLIENT - PRICE CALCULATOR & CONTACT FORM */}
-      <HomeClient />
+      {/* Keep #pris for existing calculator links and support the #priser alias. */}
+      <div id="priser"><HomeClient /></div>
       {/* LOKAL SEO */}
       <LocalSEO/>
       {/* FAQ */}

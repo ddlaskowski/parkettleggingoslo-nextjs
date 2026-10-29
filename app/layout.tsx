@@ -72,7 +72,7 @@ export default function RootLayout({
   };
 
   return (
-    <html lang="nb">
+    <html lang="nb" data-scroll-behavior="smooth">
       <body>
         <a href="#main-content" className="skip-link">Hopp til innhold</a>
         <script

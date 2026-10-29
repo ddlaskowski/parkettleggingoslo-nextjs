@@ -158,6 +158,7 @@ export default function FiskebensparkettPage() {
             </figure>
           </div>
           <Link href="/#referanser" className="inline-block mt-8 text-sm underline underline-offset-4">Se flere bilder på forsiden</Link>
+          <Link href="/prosjekter" className="inline-block mt-4 md:ml-6 text-sm underline underline-offset-4">Til prosjektoversikten</Link>
         </section>
 
         <section aria-labelledby="prosess" className="bg-[#F5F3EF] border-y border-gray-200">

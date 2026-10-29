@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 const images = Array.from({ length: 10 }, (_, i) => {
   const n = String(i + 1).padStart(2, "0");
@@ -11,7 +12,7 @@ const images = Array.from({ length: 10 }, (_, i) => {
   };
 });
 
-export default function Gallery() {
+export default function Gallery({ projectCount }: { projectCount: number }) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
@@ -154,7 +155,7 @@ export default function Gallery() {
     <section id="referanser" className="max-w-6xl mx-auto px-6 py-20">
       <h2 className="text-3xl font-semibold">Referanser</h2>
       <p className="mt-3 text-gray-600 max-w-2xl">
-        100% ekte parkettprosjekter levert det siste året i Oslo og omegn.
+        Bilder av gulvarbeid, mønster og avslutninger.
       </p>
 
       <div className="mt-10 grid grid-cols-2 md:grid-cols-5 gap-4">
@@ -177,6 +178,14 @@ export default function Gallery() {
         ))}
       </div>
 
+      {/* Portfolio */}
+      <div className="mt-8 rounded-2xl border border-gray-200 bg-[#F5F3EF] p-6 md:p-8">
+        <h3 className="text-xl sm:text-2xl font-semibold">
+          {projectCount > 0 ? `${projectCount} ${projectCount === 1 ? "gjennomført gulvprosjekt" : "gjennomførte gulvprosjekter"}` : "Utførte gulvprosjekter"}
+        </h3>
+        <p className="mt-3 max-w-2xl text-gray-600">Se flere eksempler på parkettlegging, laminat og fiskebensparkett i Oslo, Bærum og Asker.</p>
+        <Link href="/prosjekter" className="inline-block mt-5 bg-[#C69C6D] hover:bg-[#B68655] text-white px-6 py-3 rounded-xl transition-colors motion-reduce:transition-none text-sm">Se alle prosjekter →</Link>
+      </div>
       {/* Lightbox */}
       {activeIndex !== null && (
         <dialog

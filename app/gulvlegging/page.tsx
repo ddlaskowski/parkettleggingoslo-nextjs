@@ -164,7 +164,7 @@ export default function GulvleggingPage() {
             {[
               { href: "/", title: "Parkettlegging", description: "Les om parkettlegging og bli kjent med Laskowski Bygg." },
               { href: "/priser", title: "Priskalkulator", description: "Få et veiledende prisestimat for arbeid ut fra gulvtype, areal og tilvalg." },
-              { href: "/#referanser", title: "Bilder av gulvarbeid", description: "Se gulv og detaljer i det eksisterende bildegalleriet." },
+              { href: "/prosjekter", title: "Gulvprosjekter", description: "Besøk prosjektoversikten og finn veien til bildegalleriet." },
             ].map((item) => (
               <div key={item.href} className="border border-gray-200 rounded-2xl p-6">
                 <h3 className="text-lg font-semibold"><Link href={item.href} className="underline underline-offset-4">{item.title}</Link></h3>

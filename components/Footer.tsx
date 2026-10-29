@@ -14,11 +14,13 @@ export default function Footer() {
           </p>
           <nav aria-label="Bunnmeny" className="mt-4 flex flex-wrap gap-x-4 gap-y-3 text-sm text-gray-700">
             <Link href="/gulvlegging" className="underline underline-offset-4 hover:text-black">Gulvlegging</Link>
+            <Link href="/fiskebensparkett" className="underline underline-offset-4 hover:text-black">Fiskebensparkett</Link>
             {navigationItems.map((item) => (
               <Link key={item.href} href={item.href} className="underline underline-offset-4 hover:text-black">
                 {item.label}
               </Link>
             ))}
+            <Link href="/#referanser" className="underline underline-offset-4 hover:text-black">Galleri</Link>
           </nav>
         </div>
 

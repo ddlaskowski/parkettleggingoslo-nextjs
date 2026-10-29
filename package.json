@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/portfolio-images.mjs --dev",
+    "prebuild": "node scripts/portfolio-images.mjs",
+    "images:refresh": "node scripts/portfolio-images.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "eslint"

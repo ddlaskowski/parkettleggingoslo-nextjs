@@ -1,0 +1,324 @@
+{
+  "asker-01": [
+    {
+      "id": "overview",
+      "src": "/portfolio/asker-01/01-overview.jpg",
+      "version": "35740fa283471d95709dca7fc4b5438a6b50089ef52fcd9a38818ac4c46ec212",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/asker-01/02-detail.jpg",
+      "version": "c118de0747ada258667d4f1808c7a791a40878e39a82159f81ff708f4c6992e7",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/asker-01/03-material.jpg",
+      "version": "83bb85c43317787c2c4eb72a335535b570702626adf948cc1adc579bee5ca1ca",
+      "width": 4000,
+      "height": 2252
+    }
+  ],
+  "asker-02": [
+    {
+      "id": "overview",
+      "src": "/portfolio/asker-02/01-overview.jpg",
+      "version": "993de1c22121707f869b052c89e08288cbfd45ac24d2c5148be6f0aa3bc0aba5",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/asker-02/02-detail.jpg",
+      "version": "20ec63ae63e6262aed018393e8f1e41fba5f8a56964337dd0a4298d4f49677a1",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/asker-02/03-material.jpg",
+      "version": "8106fd6816c65ec5ae4075f2b2267995ad2b3ec824d5372893213840fd9351ac",
+      "width": 4000,
+      "height": 2252
+    }
+  ],
+  "bekkestua": [
+    {
+      "id": "overview",
+      "src": "/portfolio/bekkestua/01-overview.jpg",
+      "version": "50b0c9c90e03fc82669571b9babb009255cc780b58f83c815194ddeb279dad5c",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/bekkestua/02-detail.jpg",
+      "version": "064ee6446c4d774a493828b2f4b4801259e2112d125bc66b31b88e478663433e",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/bekkestua/03-material.jpg",
+      "version": "7830922602efe0e5e0fe69d509863adabbcfbc1e7075ee15fd0aa8cda6dafb61",
+      "width": 4000,
+      "height": 2252
+    }
+  ],
+  "hovik": [
+    {
+      "id": "overview",
+      "src": "/portfolio/hovik/01-overview.jpg",
+      "version": "0586487b2d5b0423d7ad0037db9d950c9475687cdaf1cf1359397ec5aa7c2b68",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/hovik/02-detail.jpg",
+      "version": "b6e36bac9a21890f23092e23dd2ac758e3739b0c2a41d1b5f9bed3dd4c401cb8",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/hovik/03-material.jpg",
+      "version": "60a322ed98a776557c722dbd5b320249ec38150d1e4564e532bd364a93c536e1",
+      "width": 4000,
+      "height": 2252
+    }
+  ],
+  "jar": [
+    {
+      "id": "overview",
+      "src": "/portfolio/jar/01-overview.jpg",
+      "version": "41c2894ffe244a8368e768dfe8f6e9c8fc49a4a35f58dd4d15a01ccf342faa94",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/jar/02-detail.jpg",
+      "version": "a90bd93818a8fa3f421ea35d67342f5612dd283451e34a694e2b12f1b4ace6a4",
+      "width": 2252,
+      "height": 4000
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/jar/03-material.jpg",
+      "version": "bb3c449cf74c1bc760f46a079dc18aa1b7df2a15a4a3982cde9e54bdc3d1cd00",
+      "width": 2252,
+      "height": 4000
+    }
+  ],
+  "oslo-01": [
+    {
+      "id": "overview",
+      "src": "/portfolio/oslo-01/01-overview.jpg",
+      "version": "f6dcff5f270e1a5750c4c2ff0e5c58858fdd08b6f92eb102323565dd8ca4e212",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/oslo-01/02-detail.jpg",
+      "version": "808d75b7cd98608b95de46abd6ba81533ed9b3fa9d1a5bc88aabec7e170b701e",
+      "width": 2252,
+      "height": 4000
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/oslo-01/03-material.jpg",
+      "version": "87deeca6301a00e438eee7cada2c82f887202d74fa10136455ff6e74400083a8",
+      "width": 4000,
+      "height": 2252
+    }
+  ],
+  "oslo-02": [
+    {
+      "id": "overview",
+      "src": "/portfolio/oslo-02/01-overview.jpg",
+      "version": "3ae523ddc904bd2bde565a7af2fc0c95dabdf6ced64f08dc7ce767d0009c3217",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/oslo-02/02-detail.jpg",
+      "version": "42da5211724a026d02774eff6566614c7efe109491fd236a34447aaf486e4d9b",
+      "width": 2252,
+      "height": 4000
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/oslo-02/03-material.jpg",
+      "version": "07bbbaf8f1a0ce7f99ef47b270a3ba57f885fd5322430c7c5d8f5a0910973ab4",
+      "width": 2252,
+      "height": 4000
+    }
+  ],
+  "oslo-03": [
+    {
+      "id": "overview",
+      "src": "/portfolio/oslo-03/01-overview.jpg",
+      "version": "f0043a5f049da08abb0ae75f55c6951cd95d9802aa4af708403f7d312f7ba6a2",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/oslo-03/02-detail.jpg",
+      "version": "3b8e2a2d21a881408f39f8df3d60f19bf90227114aebe14b0bacebc8fe09b073",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/oslo-03/03-material.jpg",
+      "version": "0923accb20cf6f50b4ce91d3e076af30d7f84c317f743dfc84836a96bfe362b0",
+      "width": 4000,
+      "height": 2252
+    }
+  ],
+  "oslo-04": [
+    {
+      "id": "overview",
+      "src": "/portfolio/oslo-04/01-overview.jpg",
+      "version": "d232f176f4ce18ce94e4ea6051aaf2a70e87fa3c012e90f8fba10477d50e6e35",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/oslo-04/02-detail.jpg",
+      "version": "5c613ebe5146cf623db85e09533b75a9a42aec709f5a8c55759c595cf03c6911",
+      "width": 2252,
+      "height": 4000
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/oslo-04/03-material.jpg",
+      "version": "0cce604841250b91f38c426be36054095ac722fd22d6ce8d17c1681177ee889f",
+      "width": 4000,
+      "height": 2252
+    }
+  ],
+  "oslo-05": [
+    {
+      "id": "overview",
+      "src": "/portfolio/oslo-05/01-overview.jpg",
+      "version": "24c5d7ddb1dfbcade957d741523c4c92135b9cd38b5eb4039ac1ce88a8d620fe",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/oslo-05/02-detail.jpg",
+      "version": "f098c967e07e2b62054a12479bf076a19fb30c0b5cb3aa0d5725dd4ba01f13d7",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/oslo-05/03-material.jpg",
+      "version": "8851a3afcef3a1fad98c8466f4bf3ae81b4e43af4d2bad3937b070f296a4536a",
+      "width": 2252,
+      "height": 4000
+    }
+  ],
+  "oslo-06": [
+    {
+      "id": "overview",
+      "src": "/portfolio/oslo-06/01-overview.jpg",
+      "version": "d26c4f6a4defc5cf8780a28bc9a116a45213d5aae17f6404fe209649f2696462",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/oslo-06/02-detail.jpg",
+      "version": "fc7d00f289b446bbd9609308d82ee65a6bf0323593b5c86f67ff4d929f28c43e",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/oslo-06/03-material.jpg",
+      "version": "b438d224cad7436c09ac5b96e543730bae2ab9c01aaf5f6949a0fa02ea7a8242",
+      "width": 4000,
+      "height": 2252
+    }
+  ],
+  "oslo-07": [
+    {
+      "id": "overview",
+      "src": "/portfolio/oslo-07/01-overview.jpg",
+      "version": "9cfa67686f056f40916ad505948e8246c95e219b1465dec67984b43915514747",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/oslo-07/02-detail.jpg",
+      "version": "13196089d282314643ed706378312bf4996875cdfb7946c0662e17c461b5f925",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/oslo-07/03-material.jpg",
+      "version": "d9992781d775162816957f3769ecd759a3ea56e208118d41c521c9fddc966c13",
+      "width": 2252,
+      "height": 4000
+    }
+  ],
+  "oslo-08": [
+    {
+      "id": "overview",
+      "src": "/portfolio/oslo-08/01-overview.JPG",
+      "version": "85a816f64ecef1553c2b58aa8423488b91b856224b824949cf10a45d1a09a143",
+      "width": 5504,
+      "height": 3096
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/oslo-08/02-detail.JPG",
+      "version": "a2d972987de79a04db29fd61800b4b2fdfaa3720e98a8b1654cdbd5cc0895fa0",
+      "width": 5504,
+      "height": 3096
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/oslo-08/03-material.JPG",
+      "version": "90249d9fd3669b129554545de5ea411702f6af4680fdaf15e51165b627a48353",
+      "width": 5504,
+      "height": 3096
+    }
+  ],
+  "oslo-09": [
+    {
+      "id": "overview",
+      "src": "/portfolio/oslo-09/01-overview.jpg",
+      "version": "653fe6aabe7b2c89538c7188f8e06ad52ca2d97be44667da23f2f49b851cbab9",
+      "width": 4000,
+      "height": 2252
+    },
+    {
+      "id": "detail",
+      "src": "/portfolio/oslo-09/02-detail.jpg",
+      "version": "6255266161a1470c4903342400f900a82dc06da29e653282a78523b4441b6093",
+      "width": 2252,
+      "height": 4000
+    },
+    {
+      "id": "material",
+      "src": "/portfolio/oslo-09/03-material.jpg",
+      "version": "221ff8bfa75454d52a7f96727e8c8007e53edd9ea21ab92024005e3941de7730",
+      "width": 2252,
+      "height": 4000
+    }
+  ]
+}

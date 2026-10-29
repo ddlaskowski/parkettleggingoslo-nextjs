@@ -11,14 +11,14 @@ The homepage services section and global footer link to it.
 | Parkettlegging overview | `/` |
 | Pricing and calculator | `/priser` and `/priser#pris` |
 | Flooring photographs | `/#referanser` |
+| Project index | `/prosjekter` |
 | Herringbone service | `/fiskebensparkett` |
 | Quote request | `/#kontakt` |
 
-## Future routes — connect only after publication
+## Individual project integration
 
-| Route | Integration |
-| --- | --- |
-| `/prosjekter` | Replace the gallery destination in the related-work card once the portfolio is published. Link the featured article to a verified relevant project when available. |
+The related-work card now links to `/prosjekter`. Link the featured article to a
+relevant individual project only after a verified project record is published.
 
 Do not replace the shared Header's existing homepage anchors as part of these
 content changes. Add each route to the sitemap only when it exists. Supply unique

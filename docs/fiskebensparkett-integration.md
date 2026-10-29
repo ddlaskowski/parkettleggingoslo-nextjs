@@ -21,7 +21,8 @@ Route: `/fiskebensparkett`. Uses the shared Header, inherited Footer, and
 These already appear in the site's gallery. No manufacturer, material construction,
 product, installation method, date, or location is assigned to a photograph.
 
-When the owner supplies project records, group photographs by verified project,
+The work section also links to the published `/prosjekter` index, which initially
+has no project cards. When the owner supplies project records, group photographs by verified project,
 add the supplied details, and connect the existing work section to published
 `/prosjekter/[slug]` pages. Add dark-floor photographs only after image review and
 owner identification. Do not publish placeholder projects or link unpublished routes.
