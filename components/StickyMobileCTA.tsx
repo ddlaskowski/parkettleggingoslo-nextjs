@@ -70,7 +70,9 @@ useEffect(() => {
   const isHidden = hiddenBySection || !showAfterScroll;
 
   function scrollToContact() {
-    document.getElementById(contactId)?.scrollIntoView({ behavior: "smooth" });
+    document.getElementById(contactId)?.scrollIntoView({
+      behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth",
+    });
   }
 
   return (
@@ -79,6 +81,8 @@ useEffect(() => {
       <div className="md:hidden h-20" />
 
       <div
+        inert={isHidden}
+        aria-hidden={isHidden}
         className={`md:hidden fixed inset-x-0 bottom-0 z-50 transition-transform duration-300 ${
           isHidden ? "translate-y-full" : "translate-y-0"
         }`}

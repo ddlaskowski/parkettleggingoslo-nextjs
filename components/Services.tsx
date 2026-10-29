@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 const services = [
   {
     title: "Parkett (klikk)",
@@ -25,6 +27,17 @@ export default function Services() {
         <p className="mt-3 text-gray-600 max-w-3xl mb-12">
           Vi jobber kun med gulv. Parkett, heltre, laminat og vinyl – levert med presisjon og ryddig utførelse
         </p>
+        <div className="flex flex-wrap gap-x-6 gap-y-3">
+          <Link href="/gulvlegging" className="text-sm underline underline-offset-4 text-gray-700 hover:text-black">
+            Les mer om gulvlegging og valg av gulv →
+          </Link>
+          <Link href="/fiskebensparkett" className="text-sm underline underline-offset-4 text-gray-700 hover:text-black">
+            Legging av fiskebensparkett →
+          </Link>
+          <Link href="/priser" className="text-sm underline underline-offset-4 text-gray-700 hover:text-black">
+            Priser og hva som inngår →
+          </Link>
+        </div>
 
         <div className="mt-10 grid md:grid-cols-2 gap-6">
           {services.map((s) => (

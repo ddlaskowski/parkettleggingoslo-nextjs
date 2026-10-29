@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
 const images = Array.from({ length: 10 }, (_, i) => {
@@ -9,20 +9,19 @@ const images = Array.from({ length: 10 }, (_, i) => {
     src: `/work/parkettleggingoslo_${n}.jpg`,
     alt: `Parkett – referanse ${n}`,
   };
-});;
+});
 
 export default function Gallery() {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [isClosing, setIsClosing] = useState(false);
   const [touchStart, setTouchStart] = useState<{ x: number; y: number } | null>(null);
-  const [touchEnd, setTouchEnd] = useState<{ x: number; y: number } | null>(null);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const [dragX, setDragX] = useState(0);
   const [dragY, setDragY] = useState(0);
 
 
-  const SWIPE_X = 45; // px
-  const SWIPE_Y_CLOSE = 80; // px
   const SWIPE_CHANGE = 70; // px – próg zmiany zdjęcia
   const SWIPE_CLOSE = 110; // px – próg zamknięcia w dół
 
@@ -35,7 +34,8 @@ export default function Gallery() {
   const modalTransform = `translate3d(${dragX}px, ${dragY}px, 0) rotate(${rotateClamped}deg) scale(${scaleFinal})`;
 
 
-  const open = (index: number) => {
+  const open = (index: number, trigger: HTMLButtonElement) => {
+    triggerRef.current = trigger;
     setIsClosing(false);
     setActiveIndex(index);
   };
@@ -103,14 +103,19 @@ export default function Gallery() {
     setTouchStart(null);
   };
 
+  const isOpen = activeIndex !== null;
   useEffect(() => {
-    if (activeIndex === null) return;
+    if (!isOpen) return;
+    const dialog = dialogRef.current;
+    dialog?.showModal();
     const original = document.body.style.overflow;
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = original;
+      dialog?.close();
+      triggerRef.current?.focus();
     };
-  }, [activeIndex]);
+  }, [isOpen]);
 
   useEffect(() => {
   if (activeIndex === null) return;
@@ -154,10 +159,12 @@ export default function Gallery() {
 
       <div className="mt-10 grid grid-cols-2 md:grid-cols-5 gap-4">
         {images.map((img, index) => (
-          <div
+          <button
+            type="button"
             key={img.src}
+            aria-label={`Åpne bilde ${index + 1}: ${img.alt}`}
             className="relative aspect-square rounded-2xl overflow-hidden border border-gray-200 cursor-pointer group"
-            onClick={() => open(index)}
+            onClick={(event) => open(index, event.currentTarget)}
           >
             <Image
               src={img.src}
@@ -166,14 +173,17 @@ export default function Gallery() {
               className="object-cover transition duration-300 group-hover:scale-105"
               sizes="(max-width: 768px) 50vw, 20vw"
             />
-          </div>
+          </button>
         ))}
       </div>
 
       {/* Lightbox */}
       {activeIndex !== null && (
-        <div
-          className={`fixed inset-0 z-50 flex items-center justify-center bg-black/80 transition-opacity duration-200
+        <dialog
+          ref={dialogRef}
+          aria-label="Bildegalleri"
+          onCancel={(event) => { event.preventDefault(); close(); }}
+          className={`fixed inset-0 m-0 h-dvh w-screen max-h-none max-w-none border-0 p-0 flex [&:not([open])]:hidden items-center justify-center bg-black/80 transition-opacity duration-200
           ${isClosing ? "opacity-0" : "opacity-100"}
           ${isDragging ? "opacity-90" : ""}`}
           onClick={close}
@@ -194,34 +204,40 @@ export default function Gallery() {
               className="object-contain rounded-xl"
               sizes="90vw"
             />
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm">
+            <div aria-live="polite" aria-atomic="true" className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-sm">
               {activeIndex + 1} / {images.length}
             </div>
             {/* Close */}
             <button
+              type="button"
+              aria-label="Lukk bildegalleri"
               onClick={close}
-              className="absolute top-4 right-4 text-white text-2xl"
+              className="absolute top-4 right-4 min-h-11 min-w-11 bg-black/60 rounded-lg text-white text-2xl"
             >
               ✕
             </button>
 
             {/* Prev */}
             <button
+              type="button"
+              aria-label="Forrige bilde"
               onClick={prev}
-              className="absolute left-4 top-1/2 -translate-y-1/2 text-white text-3xl"
+              className="absolute left-4 top-1/2 -translate-y-1/2 min-h-11 min-w-11 bg-black/60 rounded-lg text-white text-3xl"
             >
               ‹
             </button>
 
             {/* Next */}
             <button
+              type="button"
+              aria-label="Neste bilde"
               onClick={next}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-white text-3xl"
+              className="absolute right-4 top-1/2 -translate-y-1/2 min-h-11 min-w-11 bg-black/60 rounded-lg text-white text-3xl"
             >
               ›
             </button>
           </div>
-        </div>
+        </dialog>
       )}
     </section>
   );

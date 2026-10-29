@@ -1,20 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { siteConfig } from "@/lib/siteConfig";
 import Footer from "@/components/Footer";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-export const metadata = {
+export const metadata: Metadata = {
   metadataBase: new URL("https://parkettleggingoslo.no"),
   title: "Parkettlegging i Oslo – Legge parkett, laminat og heltre",
   description:
@@ -63,25 +52,29 @@ export default function RootLayout({
 }) {
   const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "FlooringContractor",
-    name: "Laskowski Bygg",
-    url: "https://parkettleggingoslo.no",
-    telephone: "+4796861689",
-    email: "laskowskibygg@gmail.com",
-    areaServed: {
+    "@type": "HomeAndConstructionBusiness",
+    name: siteConfig.companyName,
+    url: siteConfig.url,
+    telephone: siteConfig.phoneE164,
+    email: siteConfig.email,
+    areaServed: ["Oslo", "Bærum", "Asker"].map((name) => ({
       "@type": "AdministrativeArea",
-      name: "Oslo",
-    },
+      name,
+    })),
     address: {
       "@type": "PostalAddress",
-      addressCountry: "NO",
+      streetAddress: siteConfig.addressLine,
+      postalCode: siteConfig.postalCode,
+      addressLocality: siteConfig.city,
+      addressCountry: siteConfig.country,
     },
-    identifier: "996768031",
+    identifier: siteConfig.orgNr.replaceAll(" ", ""),
   };
 
   return (
     <html lang="nb">
       <body>
+        <a href="#main-content" className="skip-link">Hopp til innhold</a>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

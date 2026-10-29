@@ -1,7 +1,7 @@
 export default function CustomerReviews() {
 
 return (
-<section id="referanser" className="max-w-6xl mx-auto px-6 py-20">
+<section id="kundeomtaler" className="max-w-6xl mx-auto px-6 py-20">
   <div className="flex items-end justify-between gap-6 flex-wrap">
     <div>
       <h2 className="text-3xl font-semibold">Referanser</h2>

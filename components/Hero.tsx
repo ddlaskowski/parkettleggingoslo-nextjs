@@ -1,5 +1,4 @@
 import { siteConfig } from "@/lib/siteConfig";
-import Image from "next/image";
 import HeroImage from "./HeroImage";
 
 export default function Hero() {
