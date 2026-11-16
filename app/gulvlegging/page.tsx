@@ -119,6 +119,10 @@ export default function GulvleggingPage() {
               </article>
             ))}
           </div>
+          <div className="mt-8 max-w-3xl">
+            <p className="text-gray-600">Ønsker du også selve gulvet? Vi tilbyr to utvalgte pakker med gulvmateriale, nødvendig materialtillegg, transport helt inn i boligen og profesjonell montering.</p>
+            <Link href="/parkett-med-montering" className="mt-3 inline-flex min-h-11 items-center text-sm text-[#805B36] underline underline-offset-4">Se parkett med levering og montering</Link>
+          </div>
         </section>
 
         <section aria-labelledby="arbeidsprosess" className="bg-[#F5F3EF] border-y border-gray-200">

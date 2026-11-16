@@ -48,6 +48,10 @@ export default function PricingPage() {
             <h1 className="text-3xl sm:text-4xl lg:text-5xl font-semibold leading-tight">Pris på gulvlegging og parkettlegging</h1>
             <p className="mt-5 text-lg text-gray-600">Hva vil det koste å legge nytt gulv? Gulvmateriale, leggemønster, areal, undergulv og avsluttende arbeid påvirker prisen. Her kan du beregne en veiledende arbeidspris og sende valgene dine til Laskowski Bygg.</p>
             <p className="mt-4 text-gray-600">Vi utfører gulvlegging i Oslo, Bærum, Asker og omegn. Et estimat gir et utgangspunkt for samtalen; endelig pris og arbeidsomfang avtales etter gratis befaring.</p>
+            <div className="mt-6 border-l-2 border-[#C69C6D] pl-4">
+              <p className="text-sm text-gray-600">Kalkulatoren nedenfor beregner arbeidspris. Ønsker du også gulvmateriale og levering med innbæring, kan du velge en av våre komplette gulvpakker.</p>
+              <Link href="/parkett-med-montering" className="mt-2 inline-flex min-h-11 items-center text-sm text-[#805B36] underline underline-offset-4">Se pakker med parkett, levering og montering</Link>
+            </div>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link href="#pris" className="inline-block bg-[#C69C6D] hover:bg-[#B68655] text-white px-6 py-3 rounded-xl transition text-sm">Beregn pris på ditt gulv</Link>
               <Link href="#kontakt" className="inline-block border border-gray-300 hover:border-gray-500 px-6 py-3 rounded-xl transition text-sm">Be om vurdering</Link>

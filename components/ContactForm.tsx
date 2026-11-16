@@ -12,7 +12,11 @@ type FormStatus =
   | { type: "success" }
   | { type: "error"; message: string };
 
-export default function ContactForm({ prefill }: { prefill?: Prefill }) {
+export default function ContactForm({ prefill, packageSummary }: {
+  prefill?: Prefill;
+  /** undefined: existing contact flow; null: package selection is not valid yet. */
+  packageSummary?: string | null;
+}) {
   const formId = useId();
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
@@ -56,7 +60,8 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
       accept &&
       name.trim().length > 1 &&
       isValidPhone(phone) &&
-      message.trim().length > 5
+      message.trim().length > 5 &&
+      (packageSummary === undefined || Boolean(packageSummary))
     );
 
   async function handleSubmit(e: React.FormEvent) {
@@ -71,6 +76,7 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
 
     // "Område" in message
     const messageWithPlace = [
+      packageSummary ? `${packageSummary}\n\nKundens opplysninger:` : null,
       message.trim(),
       place.trim() ? `Område: ${place.trim()}` : null,
       "",
@@ -122,6 +128,16 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
+          {packageSummary !== undefined && (
+            <div className="rounded-xl border border-gray-200 bg-[#F5F3EF] p-4">
+              <h3 className="font-medium">Pakkevalget ditt</h3>
+              {packageSummary ? (
+                <p className="mt-3 whitespace-pre-line text-sm text-gray-700 [overflow-wrap:anywhere]">{packageSummary}</p>
+              ) : (
+                <p role="status" className="mt-3 text-sm text-gray-700">Velg gulv og gyldig areal i <a href="#pakkekalkulator" className="inline-flex min-h-11 items-center underline underline-offset-4">pakkekalkulatoren</a> før du sender en pakkeforespørsel. Opplysningene du skriver her, beholdes når du endrer pakkevalget.</p>
+              )}
+            </div>
+          )}
           <label htmlFor={`${formId}-name`} className="block text-sm font-medium">Navn (påkrevd)</label>
           <input
             id={`${formId}-name`}
@@ -170,7 +186,7 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
             onChange={(e) => setMessage(e.target.value)}
           />
 
-          <label className="flex items-start gap-3 text-xs text-gray-600">
+          <label className={`flex items-start gap-3 text-xs text-gray-600${packageSummary !== undefined ? " min-h-11" : ""}`}>
             <input
               type="checkbox"
               checked={accept}
@@ -212,7 +228,7 @@ export default function ContactForm({ prefill }: { prefill?: Prefill }) {
 
       <div className="text-sm text-gray-700">
         <div className="font-semibold">Telefon</div>
-        <a href={`tel:${siteConfig.phoneE164}`} className="inline-block mt-1 text-gray-600 underline underline-offset-4">{siteConfig.phoneDisplay}</a>
+        <a href={`tel:${siteConfig.phoneE164}`} className={`${packageSummary !== undefined ? "inline-flex min-h-11 items-center" : "inline-block"} mt-1 text-gray-600 underline underline-offset-4`}>{siteConfig.phoneDisplay}</a>
 
         <div className="mt-6 font-semibold">Område</div>
         <div className="mt-1 text-gray-600">{siteConfig.area}</div>

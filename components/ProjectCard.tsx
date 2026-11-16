@@ -2,8 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 import { getProjectCover, type PublishedProject } from "@/lib/projects";
 
-export default function ProjectCard({ project, priority = false }: { project: PublishedProject; priority?: boolean }) {
-  const cover = getProjectCover(project);
+export default function ProjectCard({ project, priority = false, imageId, showDescription = false }: {
+  project: PublishedProject;
+  priority?: boolean;
+  /** Optional local preview choice; does not change the project's featured image. */
+  imageId?: string;
+  showDescription?: boolean;
+}) {
+  const cover = project.images.find((image) => image.id === imageId) ?? getProjectCover(project);
   return (
     <article className="min-w-0 border border-gray-200 rounded-2xl bg-white">
       <Link href={`/prosjekter/${project.slug}`} className="block rounded-2xl [overflow-wrap:anywhere]">
@@ -13,6 +19,7 @@ export default function ProjectCard({ project, priority = false }: { project: Pu
         <div className="p-6">
           {(project.location || project.floorType) && <p className="text-sm text-gray-600">{[project.location, project.floorType].filter(Boolean).join(" · ")}</p>}
           <h3 className="mt-2 text-xl font-semibold">{project.title}</h3>
+          {showDescription && <p className="mt-3 text-sm text-gray-600 leading-relaxed">{project.introduction ?? project.description}</p>}
           <span className="inline-block mt-5 text-sm underline underline-offset-4">Se prosjektet</span>
         </div>
       </Link>

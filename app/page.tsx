@@ -1,5 +1,6 @@
 import Header from "@/components/Header";
 import Services from "@/components/Services";
+import HomePackageOffers from "@/components/HomePackageOffers";
 import HomeClient from "@/components/HomeClient";
 import WhyUs from "@/components/WhyUs";
 import Process from "@/components/Process";
@@ -24,6 +25,8 @@ export default function Home() {
       <TrustStrip/>
       {/* SERVICES */}
         <Services />
+      {/* FLOORING, DELIVERY & INSTALLATION PACKAGES */}
+      <HomePackageOffers />
       {/* WHY US */}
       <WhyUs />
       {/* GALLERY */}

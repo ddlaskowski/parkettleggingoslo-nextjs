@@ -3,6 +3,8 @@ import Link from "next/link";
 import Header from "@/components/Header";
 import { createPageMetadata } from "@/lib/metadata";
 import { siteConfig } from "@/lib/siteConfig";
+import { getPackageProduct } from "@/lib/packageProducts";
+import { formatPackagePrice } from "@/lib/packagePricing";
 import herringboneImage from "@/public/work/parkettleggingoslo_01.jpg";
 import transitionImage from "@/public/work/parkettleggingoslo_03.jpg";
 import roomImage from "@/public/work/parkettleggingoslo_07.jpg";
@@ -47,6 +49,7 @@ const questions = [
 ];
 
 export default function FiskebensparkettPage() {
+  const classicOak = getPackageProduct("classic-oak");
   return (
     <>
       <Header />
@@ -138,6 +141,10 @@ export default function FiskebensparkettPage() {
               <Link href="/priser#pris" className="inline-block bg-[#C69C6D] hover:bg-[#B68655] text-white px-6 py-3 rounded-xl transition text-sm">Beregn veiledende arbeidspris</Link>
               <p className="max-w-lg text-sm text-gray-600">Velg aktuell gulvtype og mønsteret «Fiskeben». Endelig pris avtales etter befaring.</p>
             </div>
+            {classicOak && <div className="mt-8 max-w-3xl border-t border-gray-200 pt-6">
+              <p className="text-gray-600">Vil du ha gulvmateriale og montering samlet? Pakken med {classicOak.name} koster {formatPackagePrice(classicOak.pricePerM2)}/m² inkl. mva., med nødvendig materialtillegg, transport og innbæring helt inn i boligen. Dette er prisen for denne produktpakken, ikke en generell arbeidspris for fiskebenslegging.</p>
+              <Link href="/parkett-med-montering" className="mt-3 inline-flex min-h-11 items-center text-sm text-[#805B36] underline underline-offset-4">Se Classic Oak-pakken og beregn pris</Link>
+            </div>}
           </div>
         </section>
 

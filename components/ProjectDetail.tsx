@@ -2,6 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import ProjectGallery from "@/components/ProjectGallery";
 import { getProjectCover, projectServiceLinks, type PublishedProject } from "@/lib/projects";
+import { meisterProjectReferences } from "@/lib/meisterProjectReferences";
 
 export default function ProjectDetail({ project }: { project: PublishedProject }) {
   const cover = getProjectCover(project);
@@ -13,6 +14,7 @@ export default function ProjectDetail({ project }: { project: PublishedProject }
   ].filter(([, value]) => value);
   const services = [...new Set(project.services ?? ["gulvlegging" as const])];
   const remainingImages = project.images.filter((image) => image.id !== cover.id);
+  const hasMeisterPackageLink = meisterProjectReferences.some(({ slug }) => slug === project.slug);
   return (
     <main id="main-content" tabIndex={-1} className="min-h-screen bg-white text-[#1E1E1E]">
       <section className="max-w-6xl mx-auto px-6 pt-28 pb-20">
@@ -39,6 +41,10 @@ export default function ProjectDetail({ project }: { project: PublishedProject }
         <div className="mt-10 max-w-3xl">
           <h2 className="text-3xl font-semibold">Om arbeidet</h2>
           {project.description.split(/\n\s*\n/).map((paragraph, index) => <p key={index} className="mt-4 text-gray-600 leading-relaxed [overflow-wrap:anywhere]">{paragraph}</p>)}
+          {hasMeisterPackageLink && <aside className="mt-6 border-l-2 border-[#C69C6D] pl-4">
+            <Link href="/parkett-med-montering" className="inline-flex min-h-11 items-center text-sm text-[#805B36] underline underline-offset-4">Se vårt tilbud på Meister fiskebensparkett med levering og montering</Link>
+            <p className="mt-2 text-sm text-gray-600">Prosjektet er ikke bekreftet som Classic Oak 08925. Produktet i pakken kan ha en annen farge eller utførelse enn gulvet som er vist her.</p>
+          </aside>}
         </div>
       </section>
       {remainingImages.length > 0 && (
