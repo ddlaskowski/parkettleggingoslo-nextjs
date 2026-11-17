@@ -5,7 +5,7 @@ import Footer from "@/components/Footer";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://parkettleggingoslo.no"),
-  title: "Gulvlegging og parkettlegging i Oslo | Laskowski Bygg",
+  title: "Parkettlegging i Oslo – Parkett, fiskeben og gulvlegging",
   description:
   "Gulvlegging og parkettlegging i Oslo, Bærum og Asker. Vi legger parkett, laminat og fiskebensparkett. Se prosjekter, beregn pris og be om tilbud.",
   keywords: [
